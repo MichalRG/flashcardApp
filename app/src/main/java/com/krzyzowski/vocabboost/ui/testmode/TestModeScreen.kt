@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.krzyzowski.vocabboost.R
-import com.krzyzowski.vocabboost.session.CardDirection
 import com.krzyzowski.vocabboost.session.TestSession
 import com.krzyzowski.vocabboost.ui.FlipCard
 import java.time.Duration
@@ -71,7 +70,7 @@ fun TestModeScreen(
             }
             FlipCard(
                 word = card.word,
-                front = if (card.direction == CardDirection.ENGLISH_FIRST) card.word.english else card.word.polish,
+                front = card.direction.front(card.word),
                 isNew = card.isNew,
                 flipped = flipped,
                 onFlip = { flipped = !flipped },

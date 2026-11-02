@@ -5,6 +5,8 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import com.krzyzowski.vocabboost.session.CardDirection
+import com.krzyzowski.vocabboost.time.FakeClock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -20,6 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
+import java.time.Instant
 
 class SettingsStoreTest {
     @get:Rule
@@ -42,6 +45,7 @@ class SettingsStoreTest {
         assertEquals(5, settings.newWordsPerDay.first())
         assertEquals(10, settings.dailyGoalMinutes.first())
         assertFalse(settings.notificationsAsked.first())
+        assertEquals(CardDirection.ENGLISH_FIRST, settings.practiceDirection.first())
     }
 
     @Test
@@ -89,6 +93,47 @@ class SettingsStoreTest {
 
         assertEquals(5, settings.newWordsPerDay.first())
         assertEquals(5, settings.dailyGoalMinutes.first())
+        assertEquals(CardDirection.ENGLISH_FIRST, settings.practiceDirection.first())
+    }
+
+    @Test
+    fun `Polish first in Practice is still selected after an app restart`() = runTest {
+        val firstRun = Job()
+        val before = SettingsStore(openStore(CoroutineScope(Dispatchers.IO + firstRun)))
+        before.setPracticeDirection(CardDirection.POLISH_FIRST)
+        firstRun.cancelAndJoin()
+
+        assertEquals(CardDirection.POLISH_FIRST, settings.practiceDirection.first())
+    }
+
+    @Test
+    fun `Practice can switch back to English first`() = runTest {
+        settings.setPracticeDirection(CardDirection.POLISH_FIRST)
+        assertEquals(CardDirection.POLISH_FIRST, settings.practiceDirection.first())
+
+        settings.setPracticeDirection(CardDirection.ENGLISH_FIRST)
+
+        assertEquals(CardDirection.ENGLISH_FIRST, settings.practiceDirection.first())
+    }
+
+    @Test
+    fun `switching Practice language leaves learning progress and other settings unchanged`() = runTest {
+        val dataStore = openStore(dataStoreScope)
+        val practiceSettings = SettingsStore(dataStore)
+        val progress = ProgressStore(dataStore, FakeClock(Instant.parse("2026-10-30T10:00:00Z")))
+        progress.recordAnswer("dump", knew = true)
+        practiceSettings.setNewWordsPerDay(3)
+        practiceSettings.setDailyGoalMinutes(5)
+        practiceSettings.markNotificationsAsked()
+        val savedProgress = progress.deck.first().encode()
+
+        practiceSettings.setPracticeDirection(CardDirection.POLISH_FIRST)
+        practiceSettings.setPracticeDirection(CardDirection.ENGLISH_FIRST)
+
+        assertEquals(savedProgress, progress.deck.first().encode())
+        assertEquals(3, practiceSettings.newWordsPerDay.first())
+        assertEquals(5, practiceSettings.dailyGoalMinutes.first())
+        assertTrue(practiceSettings.notificationsAsked.first())
     }
 
     @Test(expected = IllegalArgumentException::class)

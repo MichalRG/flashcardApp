@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import com.krzyzowski.vocabboost.schedule.Workload
+import com.krzyzowski.vocabboost.session.CardDirection
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -17,6 +18,10 @@ class SettingsStore(private val dataStore: DataStore<Preferences>) {
     val dailyGoalMinutes: Flow<Int> = dataStore.data.map { it[DAILY_GOAL_MINUTES] ?: DEFAULT_DAILY_GOAL_MINUTES }
 
     val notificationsAsked: Flow<Boolean> = dataStore.data.map { it[NOTIFICATIONS_ASKED] ?: false }
+
+    val practiceDirection: Flow<CardDirection> = dataStore.data.map {
+        if (it[PRACTICE_POLISH_FIRST] == true) CardDirection.POLISH_FIRST else CardDirection.ENGLISH_FIRST
+    }
 
     suspend fun setNewWordsPerDay(count: Int) {
         require(count in 0..Workload.MAX_NEW_WORDS_PER_DAY) { "New words per day must be between 0 and 5" }
@@ -31,6 +36,10 @@ class SettingsStore(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[NOTIFICATIONS_ASKED] = true }
     }
 
+    suspend fun setPracticeDirection(direction: CardDirection) {
+        dataStore.edit { it[PRACTICE_POLISH_FIRST] = direction == CardDirection.POLISH_FIRST }
+    }
+
     companion object {
         const val DEFAULT_NEW_WORDS_PER_DAY = Workload.MAX_NEW_WORDS_PER_DAY
         const val DEFAULT_DAILY_GOAL_MINUTES = 10
@@ -39,5 +48,6 @@ class SettingsStore(private val dataStore: DataStore<Preferences>) {
         private val NEW_WORDS_PER_DAY = intPreferencesKey("new_words_per_day")
         private val DAILY_GOAL_MINUTES = intPreferencesKey("daily_goal_minutes")
         private val NOTIFICATIONS_ASKED = booleanPreferencesKey("notifications_asked")
+        private val PRACTICE_POLISH_FIRST = booleanPreferencesKey("practice_polish_first")
     }
 }

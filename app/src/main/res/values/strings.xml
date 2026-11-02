@@ -43,6 +43,8 @@
     <string name="test_end_back_home">Back to home</string>
 
     <string name="practice_title">Practice</string>
+    <string name="practice_en_first">EN first</string>
+    <string name="practice_pl_first">PL first</string>
     <string name="practice_position">Word %1$d of %2$d</string>
     <string name="practice_stage">Stage: %1$s</string>
     <string name="practice_previous">Previous</string>

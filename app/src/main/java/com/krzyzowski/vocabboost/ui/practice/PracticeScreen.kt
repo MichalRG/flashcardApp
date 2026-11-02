@@ -22,14 +22,21 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.krzyzowski.vocabboost.R
+import com.krzyzowski.vocabboost.session.CardDirection
 import com.krzyzowski.vocabboost.session.PracticeDeck
 import com.krzyzowski.vocabboost.ui.FlipCard
 import com.krzyzowski.vocabboost.ui.StageLabel
 
 @Composable
-fun PracticeScreen(deck: PracticeDeck, position: Int, onMove: (Int) -> Unit) {
+fun PracticeScreen(
+    deck: PracticeDeck,
+    position: Int,
+    direction: CardDirection,
+    onMove: (Int) -> Unit,
+    onDirectionChange: (CardDirection) -> Unit,
+) {
     val word = deck.wordAt(position)
-    var flipped by rememberSaveable(position) { mutableStateOf(false) }
+    var flipped by rememberSaveable(position, direction) { mutableStateOf(false) }
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -40,6 +47,7 @@ fun PracticeScreen(deck: PracticeDeck, position: Int, onMove: (Int) -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(stringResource(R.string.practice_title), style = MaterialTheme.typography.headlineMedium)
+            PracticeDirectionToggle(direction, onDirectionChange)
             Text(
                 stringResource(R.string.practice_position, position + 1, deck.size),
                 style = MaterialTheme.typography.titleMedium,
@@ -50,7 +58,7 @@ fun PracticeScreen(deck: PracticeDeck, position: Int, onMove: (Int) -> Unit) {
             )
             FlipCard(
                 word = word,
-                front = word.english,
+                front = direction.front(word),
                 isNew = false,
                 flipped = flipped,
                 onFlip = { flipped = !flipped },
