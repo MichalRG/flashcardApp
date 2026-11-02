@@ -8,6 +8,7 @@ import com.krzyzowski.vocabboost.data.DailySeconds
 import com.krzyzowski.vocabboost.data.SettingsStore
 import com.krzyzowski.vocabboost.data.Streak
 import com.krzyzowski.vocabboost.schedule.Workload
+import com.krzyzowski.vocabboost.session.TestMode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -40,11 +41,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val notificationsAsked: StateFlow<Boolean?> = container.settings.notificationsAsked
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
+    val testMode: StateFlow<TestMode?> = container.settings.testMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+
     fun refreshDay() {
         today.value = container.clock.today()
     }
 
     fun markNotificationsAsked() {
         viewModelScope.launch { container.settings.markNotificationsAsked() }
+    }
+
+    fun setTestMode(mode: TestMode) {
+        viewModelScope.launch { container.settings.setTestMode(mode) }
     }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.krzyzowski.vocabboost.R
+import com.krzyzowski.vocabboost.session.CardDirection
 import com.krzyzowski.vocabboost.session.TestSession
 import com.krzyzowski.vocabboost.ui.FlipCard
 import java.time.Duration
@@ -68,6 +69,16 @@ fun TestModeScreen(
                     color = MaterialTheme.colorScheme.primary,
                 )
             }
+            Text(
+                stringResource(
+                    if (card.direction == CardDirection.POLISH_FIRST) {
+                        R.string.test_recall_english
+                    } else {
+                        R.string.test_recall_polish
+                    },
+                ),
+                modifier = Modifier.testTag("test_recall_direction"),
+            )
             FlipCard(
                 word = card.word,
                 front = card.direction.front(card.word),

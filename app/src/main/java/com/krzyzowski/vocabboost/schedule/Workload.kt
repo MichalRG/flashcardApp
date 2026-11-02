@@ -8,7 +8,7 @@ data class Workload(val reviews: List<VocabWord>, val newWords: List<VocabWord>)
         get() = reviews.size + newWords.size
 
     companion object {
-        const val MAX_NEW_WORDS_PER_DAY = 5
+        const val MAX_NEW_WORDS_PER_DAY = 8
 
         fun of(words: List<VocabWord>, deck: DeckProgress, day: LocalDate, newWordsPerDay: Int): Workload {
             val dailyLimit = newWordsPerDay.coerceIn(0, MAX_NEW_WORDS_PER_DAY)

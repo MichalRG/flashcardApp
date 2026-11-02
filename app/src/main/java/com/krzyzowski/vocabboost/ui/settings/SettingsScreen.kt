@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.krzyzowski.vocabboost.R
 import com.krzyzowski.vocabboost.data.SettingsStore
+import com.krzyzowski.vocabboost.schedule.Workload
 import com.krzyzowski.vocabboost.ui.ChoiceChips
 
 @Composable
@@ -42,7 +43,7 @@ fun SettingsScreen(
             Text(stringResource(R.string.settings_title), style = MaterialTheme.typography.headlineMedium)
             ChoiceChips(
                 title = stringResource(R.string.settings_new_words),
-                explanation = stringResource(R.string.settings_new_words_explanation),
+                explanation = stringResource(R.string.settings_new_words_explanation, Workload.MAX_NEW_WORDS_PER_DAY),
                 options = SettingsStore.NEW_WORDS_PER_DAY_OPTIONS,
                 selected = newWordsPerDay,
                 optionLabel = { it.toString() },

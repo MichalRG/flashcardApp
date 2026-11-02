@@ -102,9 +102,9 @@ class WorkloadTest {
     }
 
     @Test
-    fun `thirty due reviews remain available while even a legacy larger limit adds at most five new words`() {
+    fun `thirty due reviews remain available while even a legacy larger limit adds at most eight new words`() {
         val reviewIds = (1..30).map { "review-$it" }
-        val newIds = (1..8).map { "new-$it" }
+        val newIds = (1..10).map { "new-$it" }
         val list = words(*(reviewIds + newIds).toTypedArray())
         val deck = reviewIds.fold(DeckProgress.NONE) { progress, id ->
             progress.reaching(id, Stage.S3, today.minusDays(10))
@@ -113,22 +113,22 @@ class WorkloadTest {
         val workload = Workload.of(list, deck, today, newWordsPerDay = 20)
 
         assertEquals(reviewIds, workload.reviews.map { it.id })
-        assertEquals(newIds.take(5), workload.newWords.map { it.id })
-        assertEquals(35, workload.waiting)
+        assertEquals(newIds.take(8), workload.newWords.map { it.id })
+        assertEquals(38, workload.waiting)
     }
 
     @Test
-    fun `separate tests share the same five-new-word allowance`() {
-        val list = words("one", "two", "three", "four", "five", "six", "seven")
-        val deck = list.take(5).fold(DeckProgress.NONE) { progress, word ->
+    fun `separate tests share the same eight-new-word allowance`() {
+        val list = words(*(1..10).map { "word-$it" }.toTypedArray())
+        val deck = list.take(8).fold(DeckProgress.NONE) { progress, word ->
             progress.recordAnswer(word.id, knew = false, day = today)
         }
 
-        val remaining = Workload.of(list, deck, today, newWordsPerDay = 5)
+        val remaining = Workload.of(list, deck, today, newWordsPerDay = 8)
 
         assertEquals(emptyList<String>(), remaining.newWords.map { it.id })
         assertEquals(0, remaining.waiting)
-        assertEquals(5, Workload.of(list, deck, today.plusDays(1), newWordsPerDay = 5).reviews.size)
+        assertEquals(8, Workload.of(list, deck, today.plusDays(1), newWordsPerDay = 8).reviews.size)
     }
 
     @Test

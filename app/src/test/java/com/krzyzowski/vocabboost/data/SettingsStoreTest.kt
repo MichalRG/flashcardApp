@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import com.krzyzowski.vocabboost.session.CardDirection
+import com.krzyzowski.vocabboost.session.TestMode
 import com.krzyzowski.vocabboost.time.FakeClock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,11 +42,12 @@ class SettingsStoreTest {
     }
 
     @Test
-    fun `a fresh install has 5 new words a day, a 10-minute goal and no notification question asked`() = runTest {
-        assertEquals(5, settings.newWordsPerDay.first())
+    fun `a fresh install has 8 new words a day, mixed tests, a 10-minute goal and no notification question asked`() = runTest {
+        assertEquals(8, settings.newWordsPerDay.first())
         assertEquals(10, settings.dailyGoalMinutes.first())
         assertFalse(settings.notificationsAsked.first())
         assertEquals(CardDirection.ENGLISH_FIRST, settings.practiceDirection.first())
+        assertEquals(TestMode.MIXED, settings.testMode.first())
     }
 
     @Test
@@ -74,15 +76,15 @@ class SettingsStoreTest {
     }
 
     @Test
-    fun `settings cap new words at five and still offer a five-minute goal`() {
-        assertEquals(listOf(0, 3, 5), SettingsStore.NEW_WORDS_PER_DAY_OPTIONS)
+    fun `settings cap new words at eight and still offer gentler new-word and time goals`() {
+        assertEquals(listOf(0, 3, 5, 8), SettingsStore.NEW_WORDS_PER_DAY_OPTIONS)
         assertEquals(listOf(1, 3, 5, 10, 15, 20), SettingsStore.DAILY_GOAL_MINUTES_OPTIONS)
         assertTrue(SettingsStore.DEFAULT_NEW_WORDS_PER_DAY in SettingsStore.NEW_WORDS_PER_DAY_OPTIONS)
         assertTrue(SettingsStore.DEFAULT_DAILY_GOAL_MINUTES in SettingsStore.DAILY_GOAL_MINUTES_OPTIONS)
     }
 
     @Test
-    fun `a larger limit saved by an older version is capped at five after updating`() = runTest {
+    fun `a larger limit saved by an older version is capped at eight after updating`() = runTest {
         val oldRun = Job()
         val oldStore = openStore(CoroutineScope(Dispatchers.IO + oldRun))
         oldStore.edit {
@@ -91,9 +93,51 @@ class SettingsStoreTest {
         }
         oldRun.cancelAndJoin()
 
-        assertEquals(5, settings.newWordsPerDay.first())
+        assertEquals(8, settings.newWordsPerDay.first())
         assertEquals(5, settings.dailyGoalMinutes.first())
         assertEquals(CardDirection.ENGLISH_FIRST, settings.practiceDirection.first())
+        assertEquals(TestMode.MIXED, settings.testMode.first())
+    }
+
+    @Test
+    fun `an existing choice of five new words survives an update and can be raised to eight`() = runTest {
+        settings.setNewWordsPerDay(5)
+        assertEquals(5, settings.newWordsPerDay.first())
+
+        settings.setNewWordsPerDay(8)
+
+        assertEquals(8, settings.newWordsPerDay.first())
+    }
+
+    @Test
+    fun `the selected test mode survives an app restart independently of Practice direction`() = runTest {
+        val firstRun = Job()
+        val before = SettingsStore(openStore(CoroutineScope(Dispatchers.IO + firstRun)))
+        before.setTestMode(TestMode.ENGLISH_FIRST)
+        before.setPracticeDirection(CardDirection.POLISH_FIRST)
+        firstRun.cancelAndJoin()
+
+        assertEquals(TestMode.ENGLISH_FIRST, settings.testMode.first())
+        assertEquals(CardDirection.POLISH_FIRST, settings.practiceDirection.first())
+    }
+
+    @Test
+    fun `test modes can change without altering Practice language or learning progress`() = runTest {
+        val dataStore = openStore(dataStoreScope)
+        val testSettings = SettingsStore(dataStore)
+        val progress = ProgressStore(dataStore, FakeClock(Instant.parse("2026-10-30T10:00:00Z")))
+        progress.recordAnswer("dump", knew = true)
+        testSettings.setPracticeDirection(CardDirection.POLISH_FIRST)
+        val savedProgress = progress.deck.first().encode()
+
+        TestMode.entries.forEach { mode ->
+            testSettings.setTestMode(mode)
+            assertEquals(mode, testSettings.testMode.first())
+        }
+
+        assertEquals(savedProgress, progress.deck.first().encode())
+        assertEquals(CardDirection.POLISH_FIRST, testSettings.practiceDirection.first())
+        assertEquals(8, testSettings.newWordsPerDay.first())
     }
 
     @Test
@@ -137,8 +181,8 @@ class SettingsStoreTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `a new setting cannot introduce more than five new words per day`() = runTest {
-        settings.setNewWordsPerDay(6)
+    fun `a new setting cannot introduce more than eight new words per day`() = runTest {
+        settings.setNewWordsPerDay(9)
     }
 
     @Test(expected = IllegalArgumentException::class)

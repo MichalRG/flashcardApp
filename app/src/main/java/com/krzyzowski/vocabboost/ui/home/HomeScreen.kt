@@ -21,7 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.krzyzowski.vocabboost.R
 import com.krzyzowski.vocabboost.schedule.Workload
+import com.krzyzowski.vocabboost.session.TestMode
 import com.krzyzowski.vocabboost.ui.Screen
+import com.krzyzowski.vocabboost.ui.testmode.TestModePicker
 
 @Composable
 fun HomeScreen(
@@ -30,6 +32,8 @@ fun HomeScreen(
     goalMetToday: Boolean,
     streak: Int,
     workload: Workload,
+    testMode: TestMode,
+    onTestModeChange: (TestMode) -> Unit,
     onOpen: (Screen) -> Unit,
 ) {
     Scaffold { innerPadding ->
@@ -56,6 +60,7 @@ fun HomeScreen(
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.testTag("waiting"),
                     )
+                    TestModePicker(testMode, onTestModeChange)
                     Button(
                         onClick = { onOpen(Screen.TEST) },
                         enabled = waiting > 0,

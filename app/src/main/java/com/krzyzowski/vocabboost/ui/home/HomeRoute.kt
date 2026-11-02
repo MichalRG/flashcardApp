@@ -27,6 +27,7 @@ fun HomeRoute(onOpen: (Screen) -> Unit, viewModel: HomeViewModel = viewModel()) 
     val goalMinutes by viewModel.goalMinutes.collectAsStateWithLifecycle()
     val workload by viewModel.workload.collectAsStateWithLifecycle()
     val notificationsAsked by viewModel.notificationsAsked.collectAsStateWithLifecycle()
+    val testMode by viewModel.testMode.collectAsStateWithLifecycle()
     val requestNotifications = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
     LaunchedEffect(lifecycleOwner) {
@@ -47,6 +48,7 @@ fun HomeRoute(onOpen: (Screen) -> Unit, viewModel: HomeViewModel = viewModel()) 
         }
     }
 
+    val selectedTestMode = testMode ?: return
     workload?.let {
         HomeScreen(
             secondsToday = dailySeconds.secondsOn(day),
@@ -54,6 +56,8 @@ fun HomeRoute(onOpen: (Screen) -> Unit, viewModel: HomeViewModel = viewModel()) 
             goalMetToday = streak.lastGoalDay == day,
             streak = streak.shownOn(day),
             workload = it,
+            testMode = selectedTestMode,
+            onTestModeChange = viewModel::setTestMode,
             onOpen = onOpen,
         )
     }

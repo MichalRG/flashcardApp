@@ -38,7 +38,8 @@ class TestModeViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             val deck = container.progressStore.deck.first()
             val workload = Workload.of(container.words, deck, clock.today(), container.settings.newWordsPerDay.first())
-            _session.value = TestSession(container.testDeckBuilder.build(workload, deck))
+            val mode = container.settings.testMode.first()
+            _session.value = TestSession(container.testDeckBuilder.build(workload, mode))
         }
     }
 

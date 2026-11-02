@@ -27,6 +27,13 @@
     <string name="card_tap_to_flip">Tap the card to see the answer</string>
 
     <string name="test_position">Card %1$d of %2$d</string>
+    <string name="test_direction">Test direction</string>
+    <string name="test_mode_mixed">Mixed</string>
+    <string name="test_mode_polish_first">PL → EN</string>
+    <string name="test_mode_english_first">EN → PL</string>
+    <string name="test_mode_mixed_explanation">About two-thirds Polish → English, one-third English → Polish. One review per word.</string>
+    <string name="test_recall_english">Recall the English word</string>
+    <string name="test_recall_polish">Recall the Polish meaning</string>
     <string name="test_timer">%1$d:%2$02d</string>
     <string name="test_fine_to_stop">5 minutes done. It\'s fine to stop here.</string>
     <string name="test_time_up">Time\'s up. Answer this card to finish.</string>
@@ -69,7 +76,7 @@
 
     <string name="settings_title">Settings</string>
     <string name="settings_new_words">New words per day</string>
-    <string name="settings_new_words_explanation">At most 5 new words per day across all tests. Due reviews come first and have no word-count limit.</string>
+    <string name="settings_new_words_explanation">At most %1$d new words per day across all test directions. Due reviews come first and have no word-count limit.</string>
     <string name="settings_goal">Daily goal</string>
     <string name="settings_goal_explanation">Aim for 10 minutes a day, or start with 5. Meeting the goal earns your streak and stops reminders for today. Continuing is optional.</string>
     <string name="settings_goal_minutes">%1$d min</string>
