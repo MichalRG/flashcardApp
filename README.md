@@ -2,13 +2,17 @@
 
 A small Android app that helps you learn English words with flashcards, a few minutes a day.
 
-Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. **Start test** brings the words that are due today, most overdue first, followed by up to 8 new words. A word you know moves up the ladder of 1, 3, 7, 14 and 30 days, then checks after 60 and 90 days, after which it is retired. A word you didn't know starts again tomorrow. Tests default to a mix weighted toward recalling English from Polish. A test stops after 10 minutes, and from minute 5 the screen tells you it's fine to stop.
+**Version 1.7** tracks English-to-Polish and Polish-to-English recall separately.
+
+Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. **Start test** offers due reviews and unfinished initial learning before up to 8 distinct new words. New words need one successful recall in each direction before that direction enters its repetition schedule. Missed initial-learning cards can return later in the same session.
+
+After initial learning, a direction you remember moves up the ladder of 1, 3, 7, 14 and 30 days, then checks after 60 and 90 days, after which it is retired. A missed scheduled review returns tomorrow. Tests default to Mixed, which includes both directions. After 10 minutes, finish the current card and choose **Stop or Continue**; from minute 5 the screen tells you it's fine to stop.
 
 - **Practice** lets you flip through every word at any time without changing when it comes back. Choose **EN first** or **PL first** above the card; the app remembers your choice.
-- **Difficult words** offers extra, ungraded practice for words missed three times in a row in tests.
+- **Difficult words** offers extra, ungraded practice for words missed three times in a row in the selected direction.
 - Home shows your time in the app today, a daily goal (10 minutes by default; choose 5 for a gentler start) and your streak of days with the goal met
-- **Progress** shows how many words are at each step and how many are due today and tomorrow
-- Reminders at about 08:00 and 17:00, only when words are waiting and today's goal is not met; nothing runs in the background
+- **Progress** shows initial learning, repetition stages and due counts separately for each direction
+- Reminders at about 08:00 and 17:00, only when cards are waiting in the selected test mode and today's goal is not met; no always-running background service
 - Dark mode, fully offline: no account, no network, all data stays on the phone and is not copied to a cloud backup or a new phone
 
 ## Daily workload and goal
@@ -16,11 +20,16 @@ Each card shows an English word or its Polish translation; tap it to see the Eng
 - At most **8 new words per day** by default, shared across all tests and directions.
   Settings allow 0, 3, 5 or 8; an already chosen lower limit is preserved when updating.
   Larger limits saved by older versions are capped at 8. Answering a returning word does
-  not use up the new-word allowance.
-- **All due reviews** are offered, most overdue first, before new words. There is no
-  5-, 10- or 20-word limit on reviews. You can stop early or start another test if the
-  ten-minute session limit is reached; unanswered words remain due.
-- Remembered words move to longer intervals; missed words return tomorrow.
+  not use up the new-word allowance. The first graded attempt introduces a word;
+  its second direction and any retries never spend another slot.
+- In Mixed, 8 new words can mean **16 initial direction cards, plus retries**.
+- **All due reviews and unfinished initial learning** in the selected mode come
+  before new words. There is no 5-, 10- or 20-card limit on reviews.
+- You can end a test at any time. At ten minutes, the app offers Stop or Continue
+  after the current answer instead of automatically ending. Continue applies for
+  the rest of that session, without repeated time-limit prompts.
+- Unanswered scheduled cards remain due. Unfinished initial learning is available
+  in another session, even the same day and with the new-word limit set to zero.
 - The daily goal is time-based, not a limit on how many words you may review. Home
   confirms when it is met, and further study is optional. No more reminders are sent
   that day, even if some reviews remain. Reminders can resume the next day.
@@ -30,19 +39,40 @@ Each card shows an English word or its Polish translation; tap it to see the Eng
 
 - Choose **Mixed**, **PL → EN**, or **EN → PL** on Home before starting a test.
   The app remembers your choice; Mixed is the initial default.
-- Mixed assigns about two-thirds of the cards to Polish-first prompts and one-third
-  to English-first prompts, rounded for the test size. For 8 cards, this means
-  **5 Polish-first and 3 English-first**. A one-card test is Polish-first.
-- Only the direction assignments are shuffled: overdue reviews still come first,
-  new words still come last, and every word appears once. The direction stays fixed
-  while you flip a card or rotate the phone.
-- These choices apply to both new words and reviews, including early reviews.
-  A new word can be revealed and learned by flipping the card.
-- Each word has **one shared repetition schedule**. Answering it in either direction
-  advances or resets that schedule. Switching modes does not offer the same
-  already-answered word again or grant a second daily allowance of new words.
+- Mixed offers **all eligible directions**, not a weighted sample. A word due in
+  both directions has two cards. New words have Polish-first cards followed by
+  English-first cards; each direction needs its own successful recall.
+- Fixed modes offer only the selected direction. Starting a new word also saves
+  its other direction as unfinished, so it remains available when switching modes.
+- Each word has **two independent repetition schedules**. Answering PL → EN never
+  advances, resets or retires EN → PL, and vice versa. Switching modes can therefore
+  offer the same word in its other direction, without another new-word slot.
+- The direction stays fixed while flipping a card or rotating the phone.
 - Tests are self-graded: for a Polish-first card, recall the English word before
   revealing it; for an English-first card, recall its Polish meaning.
+
+## Initial learning and retries
+
+- A new direction remains **Learning** until its first **"Knew it"** answer.
+  Seeing the answer or choosing **"Didn't know"** does not complete initial learning.
+- A failed initial-learning card normally returns after **4 intervening cards**;
+  if only 3 fit, it returns after 3. Showing the same word in its other direction
+  resets the spacing count to avoid using that answer as an immediate cue.
+- If no gap of at least 3 other cards is available, the app does not force an
+  immediate retry. Learning stays unfinished for a later session.
+- The first successful recall schedules that direction's **1-day** review for
+  tomorrow, even after several misses or days of unfinished learning. It does
+  not jump straight to the 3-day stage.
+- Initial-learning state is saved with each graded answer. Ending a test or closing
+  the app does not silently mark unfinished directions as learned.
+- Retries currently apply to **initial learning only**. A failed mature review
+  resets that direction to the 1-day stage due tomorrow, as before.
+- The 3–4-card retry gap is a practical heuristic, not a claim of a scientifically
+  optimal spacing interval.
+
+For example, if you recall a new word from Polish but miss its English-first card,
+PL → EN is due tomorrow while EN → PL remains unfinished. A later successful
+English-first recall starts its own 1-day interval, without changing PL → EN.
 
 ## Practice direction
 
@@ -50,31 +80,49 @@ Each card shows an English word or its Polish translation; tap it to see the Eng
 - Tap the card to reveal the English word, example and Polish translation.
 - Changing direction turns the current card back to its front without changing your
   position. Your choice survives navigation, app restarts and updates.
-- The toggle affects Practice only. Tests have their own remembered direction choice
-  on Home, independent of the Practice toggle.
+- Practice and Difficult words share this preference. Tests have their own remembered
+  direction choice on Home, independent of this toggle.
+- The displayed repetition stage, including unfinished Learning, belongs to the
+  selected direction.
 - Switching languages never changes learning progress or the repetition schedule.
 
 ## Difficult words
 
 - Open **Difficult words** from Home for a separate, smaller revision deck.
-- A word enters after **3 consecutive "Didn't know" answers** in regular tests.
-  The first answer to a new word also counts. Either test direction contributes to
-  the same word's streak; answering other words does not interrupt it.
-- A correct answer before the third miss resets that word's miss streak.
+- A word enters after **3 consecutive "Didn't know" answers** in tests in the
+  same direction. Initial attempts and initial-learning retries count; answering
+  other words or the opposite direction does not interrupt its streak.
+- A correct answer before the third miss resets that direction's miss streak.
 - Once listed, the word stays until **2 consecutive "Knew it" answers** in regular
-  tests. A miss between them resets the recovery streak but keeps the word listed.
+  tests in that direction. A miss between them resets the recovery streak but keeps the word listed.
   After leaving, the word needs 3 new consecutive misses to enter again.
 - Revision here is **flip-only**, with the same EN-first / PL-first preference as
   Practice. It changes neither repetition dates nor difficulty streaks and does not
   consume the new-word allowance. Its on-screen time counts toward the daily goal.
 - All words remain available in ordinary Practice. Difficult words also remain in
   their normal scheduled tests; this deck is optional extra practice.
+- The list is direction-specific. The language toggle stays available even when
+  the selected direction has no difficult words.
 - Streaks survive app restarts and vocabulary corrections because they use stable
   word IDs. Removed vocabulary is hidden; re-adding the same ID restores its state.
 - Tracking starts with version 1.5. Earlier versions did not record consecutive
   misses, so old miss history cannot be reconstructed. Updating keeps existing
   learning progress, due dates, statistics and settings; no reset is needed.
 - The new tracking adds no background work or notifications.
+
+## Updating from the shared schedule
+
+- Version 1.7 copies each existing schedule, due date, retirement status and difficulty
+  streak into **both directions**, then lets them evolve independently.
+- Existing records are treated as already introduced; updating does not restart
+  initial learning for previously studied words.
+- Settings, daily study time, streaks and stable vocabulary IDs are preserved.
+- Migration is read-only until the next graded answer, which atomically saves the
+  directional schedule and difficulty state in version-two preferences. The original
+  version-one keys remain unchanged; they are not the active progress after migration.
+- Corrupt version-two data is reported as an error rather than silently replaced
+  using an older shared record.
+- No extra background work, alarms or network access are added.
 
 ## Adding words
 

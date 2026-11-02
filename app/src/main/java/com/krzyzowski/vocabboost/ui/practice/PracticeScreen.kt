@@ -35,7 +35,8 @@ fun PracticeScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(stringResource(R.string.practice_title), style = MaterialTheme.typography.headlineMedium)
-            PracticeCards(deck, position, direction, onMove, onDirectionChange)
+            PracticeDirectionToggle(direction, onDirectionChange)
+            PracticeCards(deck, position, direction, onMove)
         }
     }
 }

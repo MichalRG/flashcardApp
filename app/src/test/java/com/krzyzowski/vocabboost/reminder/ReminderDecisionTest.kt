@@ -4,10 +4,15 @@ import com.krzyzowski.vocabboost.schedule.DeckBuilder.reaching
 import com.krzyzowski.vocabboost.schedule.DeckProgress
 import com.krzyzowski.vocabboost.schedule.Stage
 import com.krzyzowski.vocabboost.schedule.Workload
+import com.krzyzowski.vocabboost.schedule.DirectionalProgress
+import com.krzyzowski.vocabboost.schedule.DirectionalWorkload
+import com.krzyzowski.vocabboost.session.CardDirection
+import com.krzyzowski.vocabboost.session.TestMode
 import com.krzyzowski.vocabboost.words.VocabWordBuilder.words
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.LocalDate
 
@@ -16,6 +21,29 @@ class ReminderDecisionTest {
     private val list = words("puddle", "boon", "thorough", "bargain", "reluctant", "grant")
     private val decision = ReminderDecision(list)
 
+    private fun ReminderDecision.decide(
+        deck: DeckProgress, day: LocalDate, newWordsPerDay: Int, lastGoalDay: LocalDate?,
+    ): DirectionalWorkload? =
+        decide(DirectionalProgress.fromLegacy(deck), day, newWordsPerDay, lastGoalDay, TestMode.ENGLISH_FIRST)
+
+    @Test
+    fun `unfinished initial learning can trigger a reminder even with new words disabled`() {
+        val deck = DirectionalProgress.NONE.recordAnswer("puddle", CardDirection.POLISH_FIRST, knew = false, today)
+
+        val workload = decision.decide(deck, today, 0, null, TestMode.POLISH_FIRST)
+
+        assertEquals(1, workload?.waiting)
+        assertTrue(requireNotNull(workload).reviews.single().isLearning)
+    }
+
+    @Test
+    fun `reminders respect the selected direction and count mixed cards rather than words`() {
+        val deck = DirectionalProgress.NONE.recordAnswer("puddle", CardDirection.ENGLISH_FIRST, knew = true, today)
+
+        assertNull(decision.decide(deck, today, 0, null, TestMode.ENGLISH_FIRST))
+        assertEquals(1, decision.decide(deck, today, 0, null, TestMode.POLISH_FIRST)?.waiting)
+        assertEquals(6, decision.decide(DirectionalProgress.NONE, today, 3, null, TestMode.MIXED)?.waiting)
+    }
     @Test
     fun `a reminder carries the number of reviews due plus the new words still to introduce`() {
         val deck = DeckProgress.NONE

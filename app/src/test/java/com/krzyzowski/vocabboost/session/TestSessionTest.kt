@@ -54,16 +54,19 @@ class TestSessionTest {
     }
 
     @Test
-    fun `the card on screen can still be answered after time is up, then the test ends`() {
+    fun `the card on screen can be answered at ten minutes before choosing stop or continue`() {
         val session = TestSession(cards).answer(knew = true, timeUp = false)
 
         assertFalse(session.isOver)
         val lastAnswer = session.answer(knew = false, timeUp = true)
 
-        assertTrue(lastAnswer.isOver)
-        assertNull(lastAnswer.current)
+        assertFalse(lastAnswer.isOver)
+        assertTrue(lastAnswer.awaitingTimeChoice)
+        assertEquals("kettle", lastAnswer.current?.word?.id)
         assertEquals(2, lastAnswer.answered)
         assertEquals(1, lastAnswer.didNotKnow)
+        assertTrue(lastAnswer.end().isOver)
+        assertTrue(lastAnswer.continueLearning().answer(knew = true, timeUp = true).isOver)
     }
 
     @Test

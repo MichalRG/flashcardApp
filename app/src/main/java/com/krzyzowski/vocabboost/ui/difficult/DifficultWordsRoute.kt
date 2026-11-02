@@ -9,13 +9,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun DifficultWordsRoute(viewModel: DifficultWordsViewModel = viewModel()) {
     val deck by viewModel.deck.collectAsStateWithLifecycle()
     val position by viewModel.position.collectAsStateWithLifecycle()
-    val direction by viewModel.direction.collectAsStateWithLifecycle()
     val currentDeck = deck ?: return
-    val currentDirection = direction ?: return
     DifficultWordsScreen(
         deck = currentDeck,
         position = position,
-        direction = currentDirection,
+        direction = currentDeck.direction,
         onMove = viewModel::move,
         onDirectionChange = viewModel::setDirection,
     )

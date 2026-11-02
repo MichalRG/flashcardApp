@@ -10,12 +10,12 @@
         <item quantity="other">Streak: %1$d days</item>
     </plurals>
     <plurals name="home_waiting">
-        <item quantity="one">%1$d word waiting</item>
-        <item quantity="other">%1$d words waiting</item>
+        <item quantity="one">%1$d direction card waiting</item>
+        <item quantity="other">%1$d direction cards waiting</item>
     </plurals>
     <plurals name="home_waiting_with_new">
-        <item quantity="one">%1$d word waiting (%2$d new)</item>
-        <item quantity="other">%1$d words waiting (%2$d new)</item>
+        <item quantity="one">%1$d direction card waiting (%2$d new words)</item>
+        <item quantity="other">%1$d direction cards waiting (%2$d new words)</item>
     </plurals>
     <string name="home_start_test">Start test</string>
     <string name="home_all_done">All done for today</string>
@@ -31,19 +31,27 @@
     <string name="test_mode_mixed">Mixed</string>
     <string name="test_mode_polish_first">PL → EN</string>
     <string name="test_mode_english_first">EN → PL</string>
-    <string name="test_mode_mixed_explanation">About two-thirds Polish → English, one-third English → Polish. One review per word.</string>
+    <string name="test_mode_mixed_explanation">Both directions, with separate schedules. New words need a successful recall in each direction.</string>
     <string name="test_recall_english">Recall the English word</string>
     <string name="test_recall_polish">Recall the Polish meaning</string>
     <string name="test_timer">%1$d:%2$02d</string>
     <string name="test_fine_to_stop">5 minutes done. It\'s fine to stop here.</string>
-    <string name="test_time_up">Time\'s up. Answer this card to finish.</string>
+    <string name="test_time_up">10 minutes reached. Answer this card, then choose whether to stop or continue.</string>
+    <string name="test_initial_learning">Initial learning: recall correctly once in this direction to schedule tomorrow\'s review. Missed cards retry after other cards when there is room.</string>
+    <string name="test_time_choice_title">10 minutes completed</string>
+    <string name="test_time_choice_message">You can stop now or continue learning. Unfinished words stay available for another session.</string>
+    <string name="test_continue">Continue learning</string>
+    <plurals name="test_end_learning_left">
+        <item quantity="one">Initial learning remains unfinished for %1$d direction in this session. It will be offered again.</item>
+        <item quantity="other">Initial learning remains unfinished for %1$d directions in this session. They will be offered again.</item>
+    </plurals>
     <string name="test_knew_it">Knew it</string>
     <string name="test_did_not_know">Didn\'t know</string>
     <string name="test_end">End test</string>
     <string name="test_end_title">Test finished</string>
     <plurals name="test_end_answered">
-        <item quantity="one">%1$d card answered</item>
-        <item quantity="other">%1$d cards answered</item>
+        <item quantity="one">%1$d answer attempt</item>
+        <item quantity="other">%1$d answer attempts</item>
     </plurals>
     <string name="test_end_knew">Knew it: %1$d</string>
     <string name="test_end_did_not_know">Didn\'t know: %1$d</string>
@@ -58,18 +66,19 @@
     <string name="practice_next">Next</string>
 
     <string name="difficult_words_title">Difficult words</string>
-    <string name="difficult_words_rule">Added after %1$d consecutive \"Didn\'t know\" answers in tests. Removed after %2$d consecutive \"Knew it\" answers in tests.</string>
+    <string name="difficult_words_rule">Added after %1$d consecutive \"Didn\'t know\" answers in tests. Removed after %2$d consecutive \"Knew it\" answers. Streaks are separate for each direction.</string>
     <string name="difficult_words_practice_only">Extra practice only. Flipping cards does not change your schedule or difficulty streaks.</string>
-    <string name="difficult_words_empty">No difficult words right now. Tracking starts with this version; earlier missed answers are not included.</string>
+    <string name="difficult_words_empty">No difficult words in this direction right now. You can switch direction above.</string>
 
     <string name="progress_title">Progress</string>
     <string name="progress_today">Today</string>
-    <string name="progress_due_today">Due today</string>
-    <string name="progress_new_today">New words today</string>
+    <string name="progress_due_today">Due or still learning</string>
+    <string name="progress_new_today">New words available today</string>
     <string name="progress_due_tomorrow">Due tomorrow</string>
     <string name="progress_by_stage">Words by stage</string>
 
     <string name="stage_not_started">Not started</string>
+    <string name="stage_learning">Learning (successful recall needed)</string>
     <string name="stage_1_day">1 day</string>
     <string name="stage_3_days">3 days</string>
     <string name="stage_7_days">7 days</string>
@@ -81,7 +90,7 @@
 
     <string name="settings_title">Settings</string>
     <string name="settings_new_words">New words per day</string>
-    <string name="settings_new_words_explanation">At most %1$d new words per day across all test directions. Due reviews come first and have no word-count limit.</string>
+    <string name="settings_new_words_explanation">At most %1$d distinct new words per day across both directions. Due reviews and unfinished learning come first, without a card-count limit.</string>
     <string name="settings_goal">Daily goal</string>
     <string name="settings_goal_explanation">Aim for 10 minutes a day, or start with 5. Meeting the goal earns your streak and stops reminders for today. Continuing is optional.</string>
     <string name="settings_goal_minutes">%1$d min</string>
@@ -93,11 +102,11 @@
     <string name="channel_reminders">Daily reminders</string>
     <string name="reminder_title">Time for your words</string>
     <plurals name="reminder_waiting">
-        <item quantity="one">%1$d word is waiting</item>
-        <item quantity="other">%1$d words are waiting</item>
+        <item quantity="one">%1$d direction card is waiting</item>
+        <item quantity="other">%1$d direction cards are waiting</item>
     </plurals>
     <plurals name="reminder_waiting_with_new">
-        <item quantity="one">%1$d word is waiting (%2$d new)</item>
-        <item quantity="other">%1$d words are waiting (%2$d new)</item>
+        <item quantity="one">%1$d direction card is waiting (%2$d new words)</item>
+        <item quantity="other">%1$d direction cards are waiting (%2$d new words)</item>
     </plurals>
 </resources>

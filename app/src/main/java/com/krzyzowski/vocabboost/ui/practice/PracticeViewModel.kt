@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,14 +19,13 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
     private val container = (application as VocabBoostApp).container
     private val _position = MutableStateFlow(0)
 
-    val deck: StateFlow<PracticeDeck?> = container.progressStore.deck
-        .map { PracticeDeck(container.words, it) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+    val deck: StateFlow<PracticeDeck?> =
+        combine(container.progressStore.deck, container.settings.practiceDirection) { progress, direction ->
+            val current = progress.forDirection(direction)
+            PracticeDeck(container.words, current.schedule, direction, current.learning)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     val position: StateFlow<Int> = _position.asStateFlow()
-
-    val direction: StateFlow<CardDirection?> = container.settings.practiceDirection
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     fun move(step: Int) {
         val current = deck.value ?: return

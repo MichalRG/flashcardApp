@@ -28,19 +28,26 @@ fun PracticeCards(
     position: Int,
     direction: CardDirection,
     onMove: (Int) -> Unit,
-    onDirectionChange: (CardDirection) -> Unit,
 ) {
     val currentPosition = deck.boundedPosition(position)
     val word = deck.wordAt(currentPosition)
     var flipped by rememberSaveable(word.id, direction) { mutableStateOf(false) }
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        PracticeDirectionToggle(direction, onDirectionChange)
         Text(
             stringResource(R.string.practice_position, currentPosition + 1, deck.size),
             style = MaterialTheme.typography.titleMedium,
         )
         Text(
-            stringResource(R.string.practice_stage, stringResource(StageLabel.of(deck.stageAt(currentPosition)))),
+            stringResource(
+                R.string.practice_stage,
+                stringResource(
+                    if (deck.isLearningAt(currentPosition)) {
+                        R.string.stage_learning
+                    } else {
+                        StageLabel.of(deck.stageAt(currentPosition))
+                    },
+                ),
+            ),
             modifier = Modifier.testTag("practice_stage"),
         )
         FlipCard(

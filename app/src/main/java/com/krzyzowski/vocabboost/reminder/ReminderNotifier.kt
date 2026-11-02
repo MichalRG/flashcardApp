@@ -12,12 +12,12 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.krzyzowski.vocabboost.MainActivity
 import com.krzyzowski.vocabboost.R
-import com.krzyzowski.vocabboost.schedule.Workload
+import com.krzyzowski.vocabboost.schedule.DirectionalWorkload
 
 class ReminderNotifier(private val context: Context) {
     private val manager = NotificationManagerCompat.from(context)
 
-    fun post(workload: Workload) {
+    fun post(workload: DirectionalWorkload) {
         val denied = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) !=
             PackageManager.PERMISSION_GRANTED

@@ -19,6 +19,7 @@ import com.krzyzowski.vocabboost.schedule.WordDifficulty
 import com.krzyzowski.vocabboost.session.CardDirection
 import com.krzyzowski.vocabboost.session.PracticeDeck
 import com.krzyzowski.vocabboost.ui.practice.PracticeCards
+import com.krzyzowski.vocabboost.ui.practice.PracticeDirectionToggle
 
 @Composable
 fun DifficultWordsScreen(
@@ -46,13 +47,14 @@ fun DifficultWordsScreen(
                 ),
             )
             Text(stringResource(R.string.difficult_words_practice_only))
+            PracticeDirectionToggle(direction, onDirectionChange)
             if (deck.size == 0) {
                 Text(
                     stringResource(R.string.difficult_words_empty),
                     modifier = Modifier.testTag("difficult_words_empty"),
                 )
             } else {
-                PracticeCards(deck, position, direction, onMove, onDirectionChange)
+                PracticeCards(deck, position, direction, onMove)
             }
         }
     }

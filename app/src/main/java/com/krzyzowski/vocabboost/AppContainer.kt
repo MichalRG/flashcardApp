@@ -10,11 +10,9 @@ import com.krzyzowski.vocabboost.reminder.ReminderDecision
 import com.krzyzowski.vocabboost.reminder.ReminderDispatcher
 import com.krzyzowski.vocabboost.reminder.ReminderNotifier
 import com.krzyzowski.vocabboost.reminder.ReminderScheduler
-import com.krzyzowski.vocabboost.session.TestDeckBuilder
 import com.krzyzowski.vocabboost.time.ScreenTimeTracker
 import com.krzyzowski.vocabboost.time.VariantClock
 import com.krzyzowski.vocabboost.words.VOCAB_WORDS
-import kotlin.random.Random
 
 class AppContainer(context: Context) {
     private val dataStore = PreferenceDataStoreFactory.create(
@@ -27,7 +25,6 @@ class AppContainer(context: Context) {
     val progressStore = ProgressStore(dataStore, clock)
     val screenTimeLog = ScreenTimeLog(dataStore, clock)
     val screenTimeTracker = ScreenTimeTracker(clock, screenTimeLog, settings)
-    val testDeckBuilder = TestDeckBuilder(Random.Default)
     val reminderScheduler = ReminderScheduler(context, clock)
     val reminderDispatcher = ReminderDispatcher(
         progressStore = progressStore,

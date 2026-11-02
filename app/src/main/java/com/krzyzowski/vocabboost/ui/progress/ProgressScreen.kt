@@ -18,19 +18,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.krzyzowski.vocabboost.R
 import com.krzyzowski.vocabboost.schedule.ProgressSummary
+import com.krzyzowski.vocabboost.session.CardDirection
 import com.krzyzowski.vocabboost.ui.StageLabel
 
 @Composable
-fun ProgressScreen(summary: ProgressSummary) {
-    val sections = listOf(
-        R.string.progress_today to listOf(
-            R.string.progress_due_today to summary.dueToday,
-            R.string.progress_new_today to summary.newToday,
-            R.string.progress_due_tomorrow to summary.dueTomorrow,
-        ),
-        R.string.progress_by_stage to listOf(StageLabel.of(null) to summary.notStarted) +
-            summary.perStage.map { (stage, count) -> StageLabel.of(stage) to count },
-    )
+fun ProgressScreen(summary: Map<CardDirection, ProgressSummary>) {
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -41,14 +33,38 @@ fun ProgressScreen(summary: ProgressSummary) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(stringResource(R.string.progress_title), style = MaterialTheme.typography.headlineMedium)
-            sections.forEach { (title, rows) ->
-                Card(modifier = Modifier.fillMaxWidth()) {
-                    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(title), style = MaterialTheme.typography.titleMedium)
-                        rows.forEach { (label, count) ->
-                            Row(modifier = Modifier.fillMaxWidth()) {
-                                Text(stringResource(label), modifier = Modifier.weight(1f))
-                                Text(count.toString(), style = MaterialTheme.typography.titleMedium)
+            CardDirection.entries.forEach { direction ->
+                val current = summary.getValue(direction)
+                Text(
+                    stringResource(
+                        if (direction == CardDirection.ENGLISH_FIRST) {
+                            R.string.test_mode_english_first
+                        } else {
+                            R.string.test_mode_polish_first
+                        },
+                    ),
+                    style = MaterialTheme.typography.titleLarge,
+                )
+                val sections = listOf(
+                    R.string.progress_today to listOf(
+                        R.string.progress_due_today to current.dueToday,
+                        R.string.progress_new_today to current.newToday,
+                        R.string.progress_due_tomorrow to current.dueTomorrow,
+                    ),
+                    R.string.progress_by_stage to listOf(
+                        StageLabel.of(null) to current.notStarted,
+                        R.string.stage_learning to current.learning,
+                    ) + current.perStage.map { (stage, count) -> StageLabel.of(stage) to count },
+                )
+                sections.forEach { (title, rows) ->
+                    Card(modifier = Modifier.fillMaxWidth()) {
+                        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(stringResource(title), style = MaterialTheme.typography.titleMedium)
+                            rows.forEach { (label, count) ->
+                                Row(modifier = Modifier.fillMaxWidth()) {
+                                    Text(stringResource(label), modifier = Modifier.weight(1f))
+                                    Text(count.toString(), style = MaterialTheme.typography.titleMedium)
+                                }
                             }
                         }
                     }

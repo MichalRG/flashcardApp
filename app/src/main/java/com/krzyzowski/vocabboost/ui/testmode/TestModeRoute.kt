@@ -4,6 +4,11 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.ui.res.stringResource
+import com.krzyzowski.vocabboost.R
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +49,19 @@ fun TestModeRoute(viewModel: TestModeViewModel, onExit: () -> Unit) {
     }
 
     val current = session ?: return
+    if (current.awaitingTimeChoice) {
+        AlertDialog(
+            onDismissRequest = viewModel::end,
+            title = { Text(stringResource(R.string.test_time_choice_title)) },
+            text = { Text(stringResource(R.string.test_time_choice_message)) },
+            confirmButton = {
+                TextButton(onClick = viewModel::continueLearning) { Text(stringResource(R.string.test_continue)) }
+            },
+            dismissButton = {
+                TextButton(onClick = viewModel::end) { Text(stringResource(R.string.test_end)) }
+            },
+        )
+    }
     if (current.isOver) {
         TestEndScreen(session = current, onBackHome = close)
     } else {
@@ -51,7 +69,7 @@ fun TestModeRoute(viewModel: TestModeViewModel, onExit: () -> Unit) {
             session = current,
             elapsed = timer.elapsed(now),
             fineToStop = timer.fineToStop(now),
-            timeUp = timer.timeUp(now),
+            timeUp = timer.timeUp(now) && !current.continuedPastLimit,
             onAnswer = viewModel::answer,
             onEnd = viewModel::end,
         )

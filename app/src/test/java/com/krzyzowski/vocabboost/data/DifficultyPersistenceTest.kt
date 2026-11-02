@@ -4,8 +4,8 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.krzyzowski.vocabboost.schedule.DeckProgress
-import com.krzyzowski.vocabboost.schedule.DifficultyProgress
+import com.krzyzowski.vocabboost.schedule.DirectionalDifficulty
+import com.krzyzowski.vocabboost.schedule.DirectionalProgress
 import com.krzyzowski.vocabboost.schedule.Stage
 import com.krzyzowski.vocabboost.session.CardDirection
 import com.krzyzowski.vocabboost.session.PracticeDeck
@@ -56,7 +56,7 @@ class DifficultyPersistenceTest {
 
     @Test
     fun `a fresh install has no difficult words`() = runTest {
-        assertEquals("", store.difficulty.first().encode())
+        assertEquals(DirectionalDifficulty.NONE.encode(), store.difficulty.first().encode())
     }
 
     @Test
@@ -69,7 +69,7 @@ class DifficultyPersistenceTest {
         }
         val before = dataStore.data.first().asMap()
 
-        assertEquals("", store.difficulty.first().encode())
+        assertEquals(DirectionalDifficulty.NONE.encode(), store.difficulty.first().encode())
         assertFalse(store.difficulty.first().isDifficult("boon"))
         assertEquals(Stage.S1, store.deck.first().of("boon")?.stage)
         assertEquals(before, dataStore.data.first().asMap())
@@ -99,13 +99,13 @@ class DifficultyPersistenceTest {
         val saved = store.difficulty.first()
         assertTrue(saved.isDifficult("boon"))
         assertEquals(1, saved.of("boon")?.recoveries)
-        assertEquals(Stage.S3, store.deck.first().of("boon")?.stage)
+        assertEquals(Stage.S1, store.deck.first().of("boon")?.stage)
 
         store.recordAnswer("boon", knew = true)
 
         assertFalse(store.difficulty.first().isDifficult("boon"))
         assertNull(store.difficulty.first().of("boon"))
-        assertEquals(Stage.S7, store.deck.first().of("boon")?.stage)
+        assertEquals(Stage.S3, store.deck.first().of("boon")?.stage)
     }
 
     @Test
@@ -116,13 +116,15 @@ class DifficultyPersistenceTest {
         }
 
         val saved = dataStore.data.first()
-        val deck = DeckProgress.decode(requireNotNull(saved[wordKey]))
-        val difficulty = DifficultyProgress.decode(requireNotNull(saved[difficultyKey]))
+        val deck = DirectionalProgress.decode(requireNotNull(saved[stringPreferencesKey("directional_word_progress_v2")]))
+        val difficulty = DirectionalDifficulty.decode(requireNotNull(saved[stringPreferencesKey("directional_difficulty_v2")]))
         assertEquals(Stage.S1, deck.of("boon")?.stage)
-        assertEquals(LocalDate.parse("2026-11-05"), deck.of("boon")?.due)
+        assertTrue(deck.isLearning("boon", CardDirection.ENGLISH_FIRST))
         assertEquals(LocalDate.parse("2026-11-02"), deck.of("boon")?.introducedOn)
         assertTrue(difficulty.isDifficult("boon"))
         assertEquals(3, difficulty.of("boon")?.misses)
+        store.recordAnswer("boon", knew = true)
+        assertEquals(LocalDate.parse("2026-11-06"), store.deck.first().of("boon")?.due)
     }
 
     @Test
@@ -142,7 +144,10 @@ class DifficultyPersistenceTest {
         val beforeDeck = store.deck.first()
         val beforeDifficulty = store.difficulty.first()
         val settings = SettingsStore(dataStore)
-        val practice = PracticeDeck.difficult(words("boon", "puddle"), beforeDeck, beforeDifficulty)
+        val practice = PracticeDeck.difficult(
+            words("boon", "puddle"), beforeDeck.forDirection(CardDirection.ENGLISH_FIRST).schedule,
+            beforeDifficulty.forDirection(CardDirection.ENGLISH_FIRST),
+        )
 
         CardDirection.entries.forEach { direction ->
             settings.setPracticeDirection(direction)

@@ -79,6 +79,9 @@ fun TestModeScreen(
                 ),
                 modifier = Modifier.testTag("test_recall_direction"),
             )
+            if (card.isLearning) {
+                Text(stringResource(R.string.test_initial_learning), modifier = Modifier.testTag("initial_learning"))
+            }
             FlipCard(
                 word = card.word,
                 front = card.direction.front(card.word),

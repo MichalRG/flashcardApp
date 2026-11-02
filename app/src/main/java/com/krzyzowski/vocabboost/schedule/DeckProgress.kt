@@ -3,6 +3,8 @@ package com.krzyzowski.vocabboost.schedule
 import java.time.LocalDate
 
 class DeckProgress private constructor(private val words: Map<String, WordProgress>) {
+    val ids: Set<String>
+        get() = words.keys
 
     fun of(id: String): WordProgress? = words[id]
 
@@ -12,6 +14,13 @@ class DeckProgress private constructor(private val words: Map<String, WordProgre
     }
 
     fun introducedOn(day: LocalDate): Int = words.values.count { it.introducedOn == day }
+
+    fun introducedIdsOn(day: LocalDate): Set<String> = words.filterValues { it.introducedOn == day }.keys
+
+    fun completeLearning(id: String, day: LocalDate): DeckProgress {
+        val previous = requireNotNull(words[id]) { "Cannot complete an unintroduced word" }
+        return DeckProgress(words + (id to previous.copy(stage = Stage.S1, due = day.plusDays(1))))
+    }
 
     fun encode(): String = words.entries
         .sortedBy { it.key }

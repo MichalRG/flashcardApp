@@ -20,7 +20,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.krzyzowski.vocabboost.R
-import com.krzyzowski.vocabboost.schedule.Workload
+import com.krzyzowski.vocabboost.schedule.DirectionalWorkload
 import com.krzyzowski.vocabboost.session.TestMode
 import com.krzyzowski.vocabboost.ui.Screen
 import com.krzyzowski.vocabboost.ui.testmode.TestModePicker
@@ -31,7 +31,7 @@ fun HomeScreen(
     goalMinutes: Int,
     goalMetToday: Boolean,
     streak: Int,
-    workload: Workload,
+    workload: DirectionalWorkload,
     testMode: TestMode,
     onTestModeChange: (TestMode) -> Unit,
     onOpen: (Screen) -> Unit,

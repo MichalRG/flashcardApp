@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.krzyzowski.vocabboost.VocabBoostApp
-import com.krzyzowski.vocabboost.schedule.Workload
+import com.krzyzowski.vocabboost.schedule.DirectionalWorkload
 import com.krzyzowski.vocabboost.session.TestSession
 import com.krzyzowski.vocabboost.session.TestTimer
 import kotlinx.coroutines.Job
@@ -37,9 +37,11 @@ class TestModeViewModel(application: Application) : AndroidViewModel(application
         _timer.value = TestTimer()
         viewModelScope.launch {
             val deck = container.progressStore.deck.first()
-            val workload = Workload.of(container.words, deck, clock.today(), container.settings.newWordsPerDay.first())
             val mode = container.settings.testMode.first()
-            _session.value = TestSession(container.testDeckBuilder.build(workload, mode))
+            val workload = DirectionalWorkload.of(
+                container.words, deck, clock.today(), container.settings.newWordsPerDay.first(), mode,
+            )
+            if (isOpen) _session.value = TestSession(workload.cards)
         }
     }
 
@@ -59,15 +61,27 @@ class TestModeViewModel(application: Application) : AndroidViewModel(application
     fun answer(knew: Boolean) {
         if (saving?.isActive == true) return
         val session = _session.value ?: return
+        if (session.awaitingTimeChoice) return
         val card = session.current ?: return
         saving = viewModelScope.launch {
-            container.progressStore.recordAnswer(card.word.id, knew)
-            _session.value = session.answer(knew, timeUp = _timer.value.timeUp(clock.now()))
+            container.progressStore.recordAnswer(card.word.id, card.direction, knew)
+            val answered = session.answer(knew, timeUp = _timer.value.timeUp(clock.now()))
+            _session.update { latest ->
+                when {
+                    latest === session -> answered
+                    latest?.stopped == true && latest.cards === session.cards -> answered.end()
+                    else -> latest
+                }
+            }
         }
     }
 
     fun end() {
         _session.update { it?.end() }
+    }
+
+    fun continueLearning() {
+        _session.update { it?.continueLearning() }
     }
 
     fun close() {

@@ -39,6 +39,15 @@ fun TestEndScreen(session: TestSession, onBackHome: () -> Unit) {
                 stringResource(R.string.test_end_did_not_know, session.didNotKnow),
                 modifier = Modifier.testTag("end_did_not_know"),
             )
+            if (session.pendingLearning.isNotEmpty()) {
+                Text(
+                    pluralStringResource(
+                        R.plurals.test_end_learning_left,
+                        session.pendingLearning.size,
+                        session.pendingLearning.size,
+                    ),
+                )
+            }
             Button(onClick = onBackHome, modifier = Modifier.fillMaxWidth().testTag("back_home")) {
                 Text(stringResource(R.string.test_end_back_home))
             }

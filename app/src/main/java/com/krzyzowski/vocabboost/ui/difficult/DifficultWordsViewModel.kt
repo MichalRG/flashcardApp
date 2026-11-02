@@ -20,14 +20,16 @@ class DifficultWordsViewModel(application: Application) : AndroidViewModel(appli
     private val _position = MutableStateFlow(0)
 
     val deck: StateFlow<PracticeDeck?> =
-        combine(container.progressStore.deck, container.progressStore.difficulty) { progress, difficulty ->
-            PracticeDeck.difficult(container.words, progress, difficulty)
+        combine(
+            container.progressStore.deck, container.progressStore.difficulty, container.settings.practiceDirection,
+        ) { progress, difficulty, direction ->
+            val current = progress.forDirection(direction)
+            PracticeDeck.difficult(
+                container.words, current.schedule, difficulty.forDirection(direction), direction, current.learning,
+            )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     val position: StateFlow<Int> = _position.asStateFlow()
-
-    val direction: StateFlow<CardDirection?> = container.settings.practiceDirection
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     fun move(step: Int) {
         val current = deck.value ?: return

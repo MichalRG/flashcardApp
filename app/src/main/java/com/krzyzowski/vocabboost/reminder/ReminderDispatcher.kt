@@ -22,6 +22,7 @@ class ReminderDispatcher(
             day = clock.today(),
             newWordsPerDay = settings.newWordsPerDay.first(),
             lastGoalDay = screenTimeLog.streak.first().lastGoalDay,
+            mode = settings.testMode.first(),
         )?.let(notifier::post)
     }
 }

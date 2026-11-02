@@ -7,7 +7,7 @@ import com.krzyzowski.vocabboost.VocabBoostApp
 import com.krzyzowski.vocabboost.data.DailySeconds
 import com.krzyzowski.vocabboost.data.SettingsStore
 import com.krzyzowski.vocabboost.data.Streak
-import com.krzyzowski.vocabboost.schedule.Workload
+import com.krzyzowski.vocabboost.schedule.DirectionalWorkload
 import com.krzyzowski.vocabboost.session.TestMode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,9 +33,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val goalMinutes: StateFlow<Int> = container.settings.dailyGoalMinutes
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), SettingsStore.DEFAULT_DAILY_GOAL_MINUTES)
 
-    val workload: StateFlow<Workload?> =
-        combine(container.progressStore.deck, container.settings.newWordsPerDay, today) { deck, newWordsPerDay, day ->
-            Workload.of(container.words, deck, day, newWordsPerDay)
+    val workload: StateFlow<DirectionalWorkload?> =
+        combine(
+            container.progressStore.deck, container.settings.newWordsPerDay, today, container.settings.testMode,
+        ) { deck, newWordsPerDay, day, mode ->
+            DirectionalWorkload.of(container.words, deck, day, newWordsPerDay, mode)
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     val notificationsAsked: StateFlow<Boolean?> = container.settings.notificationsAsked
