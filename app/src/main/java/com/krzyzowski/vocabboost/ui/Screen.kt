@@ -1,3 +1,3 @@
 package com.krzyzowski.vocabboost.ui
 
-enum class Screen { HOME, TEST, PRACTICE, PROGRESS, SETTINGS }
+enum class Screen { HOME, TEST, PRACTICE, DIFFICULT_WORDS, PROGRESS, SETTINGS }

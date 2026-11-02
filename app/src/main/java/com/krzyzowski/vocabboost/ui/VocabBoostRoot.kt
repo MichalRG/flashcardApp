@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.krzyzowski.vocabboost.ui.difficult.DifficultWordsRoute
 import com.krzyzowski.vocabboost.ui.home.HomeRoute
 import com.krzyzowski.vocabboost.ui.practice.PracticeRoute
 import com.krzyzowski.vocabboost.ui.progress.ProgressRoute
@@ -36,6 +37,7 @@ fun VocabBoostRoot() {
             )
             Screen.TEST -> TestModeRoute(testModeViewModel, onExit = goHome)
             Screen.PRACTICE -> PracticeRoute()
+            Screen.DIFFICULT_WORDS -> DifficultWordsRoute()
             Screen.PROGRESS -> ProgressRoute()
             Screen.SETTINGS -> SettingsRoute()
         }

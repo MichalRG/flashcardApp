@@ -5,6 +5,7 @@ A small Android app that helps you learn English words with flashcards, a few mi
 Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. **Start test** brings the words that are due today, most overdue first, followed by up to 8 new words. A word you know moves up the ladder of 1, 3, 7, 14 and 30 days, then checks after 60 and 90 days, after which it is retired. A word you didn't know starts again tomorrow. Tests default to a mix weighted toward recalling English from Polish. A test stops after 10 minutes, and from minute 5 the screen tells you it's fine to stop.
 
 - **Practice** lets you flip through every word at any time without changing when it comes back. Choose **EN first** or **PL first** above the card; the app remembers your choice.
+- **Difficult words** offers extra, ungraded practice for words missed three times in a row in tests.
 - Home shows your time in the app today, a daily goal (10 minutes by default; choose 5 for a gentler start) and your streak of days with the goal met
 - **Progress** shows how many words are at each step and how many are due today and tomorrow
 - Reminders at about 08:00 and 17:00, only when words are waiting and today's goal is not met; nothing runs in the background
@@ -52,6 +53,28 @@ Each card shows an English word or its Polish translation; tap it to see the Eng
 - The toggle affects Practice only. Tests have their own remembered direction choice
   on Home, independent of the Practice toggle.
 - Switching languages never changes learning progress or the repetition schedule.
+
+## Difficult words
+
+- Open **Difficult words** from Home for a separate, smaller revision deck.
+- A word enters after **3 consecutive "Didn't know" answers** in regular tests.
+  The first answer to a new word also counts. Either test direction contributes to
+  the same word's streak; answering other words does not interrupt it.
+- A correct answer before the third miss resets that word's miss streak.
+- Once listed, the word stays until **2 consecutive "Knew it" answers** in regular
+  tests. A miss between them resets the recovery streak but keeps the word listed.
+  After leaving, the word needs 3 new consecutive misses to enter again.
+- Revision here is **flip-only**, with the same EN-first / PL-first preference as
+  Practice. It changes neither repetition dates nor difficulty streaks and does not
+  consume the new-word allowance. Its on-screen time counts toward the daily goal.
+- All words remain available in ordinary Practice. Difficult words also remain in
+  their normal scheduled tests; this deck is optional extra practice.
+- Streaks survive app restarts and vocabulary corrections because they use stable
+  word IDs. Removed vocabulary is hidden; re-adding the same ID restores its state.
+- Tracking starts with version 1.5. Earlier versions did not record consecutive
+  misses, so old miss history cannot be reconstructed. Updating keeps existing
+  learning progress, due dates, statistics and settings; no reset is needed.
+- The new tracking adds no background work or notifications.
 
 ## Adding words
 

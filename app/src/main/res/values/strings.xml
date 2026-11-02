@@ -57,6 +57,11 @@
     <string name="practice_previous">Previous</string>
     <string name="practice_next">Next</string>
 
+    <string name="difficult_words_title">Difficult words</string>
+    <string name="difficult_words_rule">Added after %1$d consecutive \"Didn\'t know\" answers in tests. Removed after %2$d consecutive \"Knew it\" answers in tests.</string>
+    <string name="difficult_words_practice_only">Extra practice only. Flipping cards does not change your schedule or difficulty streaks.</string>
+    <string name="difficult_words_empty">No difficult words right now. Tracking starts with this version; earlier missed answers are not included.</string>
+
     <string name="progress_title">Progress</string>
     <string name="progress_today">Today</string>
     <string name="progress_due_today">Due today</string>

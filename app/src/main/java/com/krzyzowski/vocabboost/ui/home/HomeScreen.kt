@@ -72,6 +72,7 @@ fun HomeScreen(
             }
             listOf(
                 Screen.PRACTICE to R.string.home_practice,
+                Screen.DIFFICULT_WORDS to R.string.difficult_words_title,
                 Screen.PROGRESS to R.string.home_progress,
                 Screen.SETTINGS to R.string.home_settings,
             ).forEach { (target, label) ->

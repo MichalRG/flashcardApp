@@ -29,7 +29,8 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     fun move(step: Int) {
-        _position.update { (it + step).coerceAtMost(container.words.lastIndex).coerceAtLeast(0) }
+        val current = deck.value ?: return
+        _position.update { current.boundedPosition(current.boundedPosition(it) + step) }
     }
 
     fun setDirection(direction: CardDirection) {
