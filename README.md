@@ -78,9 +78,10 @@ Each card shows an English word or its Polish translation; tap it to see the Eng
 
 ## Adding words
 
-The bundled deck contains 90 cards from the supplied vocabulary list, with corrected spelling,
-Polish translations and short English examples. The original demonstration cards are no longer
-in the deck; any saved progress for their IDs is retained.
+The bundled deck contains 144 cards from the supplied vocabulary lists, with corrected spelling,
+Polish translations and short English examples. Version 1.6 appends 54 cards, mainly about
+driving, to the original 90 without changing their IDs or order. The original demonstration
+cards are no longer in the deck; any saved progress for their IDs is retained.
 
 Some notes were split into separate cards to keep their meanings clear:
 
@@ -90,7 +91,22 @@ Some notes were split into separate cards to keep their meanings clear:
 - `would`, `might` and `could` do not represent fixed percentages of certainty.
 - `dose up` means to take medicine, not simply increase a dose.
 - The confirmed ambiguous entries are `phone battery` and `wear and tear`.
+- The second list's `puncture` and `wear and tear` reuse the existing cards, without duplicates.
+- `clutch (gaming)` and `clutch (car)` have separate cards; the gaming card keeps its original ID.
+- The confirmed phrase is `affect the plan`, not `effect the plan`. `drop`, `change` and
+  `scrap the plan` are separate cards with their own meanings.
+- `get a lift` means to receive a ride; `give someone a lift` means to offer one.
+- `stinger` (żądło) and `stinging remark` (kąśliwa uwaga) have separate cards.
+- Corrected phrases include `built-up area`, `the lanes are merging`, `lower the car`
+  and `truck-mounted crane`. British `tyre` and American `tire` are shown together.
+- `divert traffic` means to send it along another route, not reverse its direction.
+- `hit-and-run` means leaving the scene of a collision; it need not involve a pedestrian.
+- `parking ticket` can mean a parking fine or a ticket proving payment, depending on context.
 - Informal, British and vulgar expressions are labelled in their Polish definitions.
+
+All added words are immediately available in Practice. Normal tests still introduce new
+words in deck order, within the existing daily allowance. Adding vocabulary changes neither
+saved schedules nor difficulty streaks, and does not reset statistics or settings.
 
 All words live in one list, `app/src/main/java/com/krzyzowski/vocabboost/words/VocabWords.kt`. Each entry has an `id`, the English word or phrase, the example sentence(s) and the Polish translation.
 
