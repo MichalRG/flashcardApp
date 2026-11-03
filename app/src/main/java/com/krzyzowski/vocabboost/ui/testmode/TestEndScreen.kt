@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -25,6 +27,7 @@ fun TestEndScreen(session: TestSession, onBackHome: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
@@ -46,6 +49,16 @@ fun TestEndScreen(session: TestSession, onBackHome: () -> Unit) {
                         session.pendingLearning.size,
                         session.pendingLearning.size,
                     ),
+                )
+            }
+            if (session.deferredCards.isNotEmpty()) {
+                Text(
+                    pluralStringResource(
+                        R.plurals.test_end_spacing_deferred,
+                        session.deferredCards.size,
+                        session.deferredCards.size,
+                    ),
+                    modifier = Modifier.testTag("spacing_deferred"),
                 )
             }
             Button(onClick = onBackHome, modifier = Modifier.fillMaxWidth().testTag("back_home")) {

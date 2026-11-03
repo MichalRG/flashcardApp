@@ -2,9 +2,9 @@
 
 A small Android app that helps you learn English words with flashcards, a few minutes a day.
 
-**Version 1.9** adds ungraded sentence-completion exercises in Practice, alongside separate English-to-Polish and Polish-to-English recall schedules and recurring long-term maintenance.
+**Version 1.10** spaces opposite test directions and learning retries so the same word cannot give away its next answer. It retains ungraded Context practice, independent translation schedules and recurring long-term maintenance.
 
-Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. **Start test** offers due reviews and unfinished initial learning before up to 8 distinct new words. New words need one successful recall in each direction before that direction enters its repetition schedule. Missed initial-learning cards can return later in the same session.
+Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. **Start test** prioritizes due reviews and unfinished initial learning, with up to 8 distinct new words. New words need one successful recall in each direction before that direction enters its repetition schedule. Missed initial-learning cards can return later in the same session, with other words in between.
 
 After initial learning, a direction you remember moves up the ladder of 1, 3, 7, 14 and 30 days, then checks after 60, 90, 180 and 365 days. It then stays in maintenance, with another review every 365 days instead of permanent retirement. A missed scheduled review returns tomorrow. Tests default to Mixed, which includes both directions. After 10 minutes, finish the current card and choose **Stop or Continue**; from minute 5 the screen tells you it's fine to stop.
 
@@ -23,8 +23,10 @@ After initial learning, a direction you remember moves up the ladder of 1, 3, 7,
   not use up the new-word allowance. The first graded attempt introduces a word;
   its second direction and any retries never spend another slot.
 - In Mixed, 8 new words can mean **16 initial direction cards, plus retries**.
-- **All due reviews and unfinished initial learning** in the selected mode come
-  before new words. There is no 5-, 10- or 20-card limit on reviews.
+- **Due reviews and unfinished initial learning** have priority over new words.
+  New cards can fill spacing gaps when no review can safely be shown next.
+  There is no 5-, 10- or 20-card limit on reviews, but directions without enough
+  spacing remain due for another session.
 - You can end a test at any time. At ten minutes, the app offers Stop or Continue
   after the current answer instead of automatically ending. Continue applies for
   the rest of that session, without repeated time-limit prompts.
@@ -62,9 +64,21 @@ After initial learning, a direction you remember moves up the ladder of 1, 3, 7,
 
 - Choose **Mixed**, **PL → EN**, or **EN → PL** on Home before starting a test.
   The app remembers your choice; Mixed is the initial default.
-- Mixed offers **all eligible directions**, not a weighted sample. A word due in
-  both directions has two cards. New words have Polish-first cards followed by
-  English-first cards; each direction needs its own successful recall.
+- Mixed considers **all eligible directions**, not a weighted sample. A word due in
+  both directions has two independent cards; each needs its own successful recall.
+- Any two prompts for the same word have **at least 3 other cards between them**,
+  preferably 4 where review priority and available material allow it. This applies
+  to due reviews, new directions and inserted initial-learning retries. The queue
+  is checked again after every answer so a retry cannot put an opposite prompt
+  immediately beside it.
+- If the remaining material cannot provide that gap, the direction is postponed
+  rather than shown with a fresh answer cue. The end screen explains how many
+  directions were postponed. They are never automatically graded or rescheduled.
+- Home and reminders count all waiting directions, including postponed ones, so
+  their counts can exceed the number of cards that safely fit in one test.
+- More-frequent words are spread across the queue to avoid consuming all their
+  spacing material too early. Within those constraints, original review order is
+  retained; first-attempt new directions are lower priority.
 - Fixed modes offer only the selected direction. Starting a new word also saves
   its other direction as unfinished, so it remains available when switching modes.
 - Each word has **two independent repetition schedules**. Answering PL → EN never
@@ -78,9 +92,9 @@ After initial learning, a direction you remember moves up the ladder of 1, 3, 7,
 
 - A new direction remains **Learning** until its first **"Knew it"** answer.
   Seeing the answer or choosing **"Didn't know"** does not complete initial learning.
-- A failed initial-learning card normally returns after **4 intervening cards**;
-  if only 3 fit, it returns after 3. Showing the same word in its other direction
-  resets the spacing count to avoid using that answer as an immediate cue.
+- A failed initial-learning card aims to return after **4 intervening cards**,
+  with a minimum of 3. The global spacing check may move or postpone its opposite
+  direction as well, so neither prompt gives away the other's answer.
 - If no gap of at least 3 other cards is available, the app does not force an
   immediate retry. Learning stays unfinished for a later session.
 - The first successful recall schedules that direction's **1-day** review for
@@ -92,6 +106,8 @@ After initial learning, a direction you remember moves up the ladder of 1, 3, 7,
   resets that direction to the 1-day stage due tomorrow, as before.
 - The 3–4-card retry gap is a practical heuristic, not a claim of a scientifically
   optimal spacing interval.
+- Spacing is measured within a test. Starting another session resets its card-gap
+  history; the app does not enforce a cross-session timer.
 
 For example, if you recall a new word from Polish but miss its English-first card,
 PL → EN is due tomorrow while EN → PL remains unfinished. A later successful

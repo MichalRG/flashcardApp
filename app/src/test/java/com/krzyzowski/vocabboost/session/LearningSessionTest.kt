@@ -53,34 +53,47 @@ class LearningSessionTest {
     }
 
     @Test
-    fun `showing the opposite direction resets the retry gap for the same word`() {
-        val opposite = learning.copy(direction = CardDirection.ENGLISH_FIRST)
-        val session = TestSession(
-            listOf(learning, review("a"), review("b"), opposite) + others(4),
+    fun `replanning separates both the retry and the opposite direction after a failed recall`() {
+        val unfinished = learning.copy(isNew = false)
+        val opposite = unfinished.copy(direction = CardDirection.ENGLISH_FIRST)
+        val session = TestSession.start(
+            listOf(unfinished, review("a"), review("b"), opposite) + others(4),
         ).answer(false, false)
 
-        assertEquals(learning.key, session.cards.last().key)
-        assertEquals(listOf("other-1", "other-2", "other-3", "other-4"),
-            session.cards.takeLast(5).dropLast(1).map { it.word.id })
+        assertEquals(learning.key, session.cards.first().key)
+        assertEquals(2, session.cards.count { it.key == learning.key })
+        assertTrue(session.cards.any { it.key == opposite.key })
+        session.cards.windowed(4, partialWindows = true).forEach { window ->
+            assertEquals(window.size, window.map { it.word.id }.distinct().size)
+        }
     }
 
     @Test
-    fun `other cards on both sides of an opposite-direction prompt do not combine into a retry gap`() {
-        val opposite = learning.copy(direction = CardDirection.ENGLISH_FIRST)
-        val cards = listOf(learning, review("a"), review("b"), opposite, review("c"), review("d"))
-        val session = TestSession(cards).answer(false, false)
+    fun `an opposite direction is postponed when a retry uses the last available gap`() {
+        val unfinished = learning.copy(isNew = false)
+        val opposite = unfinished.copy(direction = CardDirection.ENGLISH_FIRST)
+        val cards = listOf(unfinished, review("a"), review("b"), opposite, review("c"), review("d"))
+        val session = TestSession.start(cards).answer(false, false)
 
-        assertEquals(cards, session.cards)
+        assertEquals(learning.key, session.cards.first().key)
+        assertEquals(listOf(opposite), session.deferredCards)
+        assertEquals(2, session.cards.count { it.key == learning.key })
+        session.cards.windowed(4, partialWindows = true).forEach { window ->
+            assertEquals(window.size, window.map { it.word.id }.distinct().size)
+        }
     }
 
     @Test
     fun `a single correct recall completes only the attempted direction`() {
         val opposite = learning.copy(direction = CardDirection.ENGLISH_FIRST)
-        val session = TestSession(listOf(learning, opposite)).answer(true, false)
+        val session = TestSession.start(listOf(learning, opposite)).answer(true, false)
 
         assertEquals(setOf(opposite.key), session.pendingLearning)
-        assertEquals(2, session.cards.size)
-        assertTrue(session.answer(true, false).pendingLearning.isEmpty())
+        assertEquals(1, session.cards.size)
+        assertTrue(session.isOver)
+        assertEquals(listOf(opposite), session.deferredCards)
+        assertEquals(session, session.answer(true, false))
+        assertTrue(TestSession.start(session.deferredCards).answer(true, false).pendingLearning.isEmpty())
     }
 
     @Test

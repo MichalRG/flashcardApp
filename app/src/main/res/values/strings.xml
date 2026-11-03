@@ -32,7 +32,7 @@
     <string name="test_mode_mixed">Mixed</string>
     <string name="test_mode_polish_first">PL → EN</string>
     <string name="test_mode_english_first">EN → PL</string>
-    <string name="test_mode_mixed_explanation">Both directions, with separate schedules. New words need a successful recall in each direction.</string>
+    <string name="test_mode_mixed_explanation">Both directions have separate schedules. Prompts for the same word have at least 3 other cards between them. If there is not enough room, the other direction stays due for another session.</string>
     <string name="test_recall_english">Recall the English word</string>
     <string name="test_recall_polish">Recall the Polish meaning</string>
     <string name="test_timer">%1$d:%2$02d</string>
@@ -45,6 +45,10 @@
     <plurals name="test_end_learning_left">
         <item quantity="one">Initial learning remains unfinished for %1$d direction in this session. It will be offered again.</item>
         <item quantity="other">Initial learning remains unfinished for %1$d directions in this session. They will be offered again.</item>
+    </plurals>
+    <plurals name="test_end_spacing_deferred">
+        <item quantity="one">%1$d direction was postponed to avoid revealing the answer too recently. It remains due or unfinished for another session.</item>
+        <item quantity="other">%1$d directions were postponed to avoid revealing the answer too recently. They remain due or unfinished for another session.</item>
     </plurals>
     <string name="test_knew_it">Knew it</string>
     <string name="test_did_not_know">Didn\'t know</string>

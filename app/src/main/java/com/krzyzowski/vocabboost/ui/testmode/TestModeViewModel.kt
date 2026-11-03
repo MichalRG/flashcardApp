@@ -41,7 +41,7 @@ class TestModeViewModel(application: Application) : AndroidViewModel(application
             val workload = DirectionalWorkload.of(
                 container.words, deck, clock.today(), container.settings.newWordsPerDay.first(), mode,
             )
-            if (isOpen) _session.value = TestSession(workload.cards)
+            if (isOpen) _session.value = TestSession.start(workload.cards)
         }
     }
 
