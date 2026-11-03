@@ -2,11 +2,11 @@
 
 A small Android app that helps you learn English words with flashcards, a few minutes a day.
 
-**Version 1.7** tracks English-to-Polish and Polish-to-English recall separately.
+**Version 1.8** tracks English-to-Polish and Polish-to-English recall separately and keeps vocabulary in recurring long-term maintenance.
 
 Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. **Start test** offers due reviews and unfinished initial learning before up to 8 distinct new words. New words need one successful recall in each direction before that direction enters its repetition schedule. Missed initial-learning cards can return later in the same session.
 
-After initial learning, a direction you remember moves up the ladder of 1, 3, 7, 14 and 30 days, then checks after 60 and 90 days, after which it is retired. A missed scheduled review returns tomorrow. Tests default to Mixed, which includes both directions. After 10 minutes, finish the current card and choose **Stop or Continue**; from minute 5 the screen tells you it's fine to stop.
+After initial learning, a direction you remember moves up the ladder of 1, 3, 7, 14 and 30 days, then checks after 60, 90, 180 and 365 days. It then stays in maintenance, with another review every 365 days instead of permanent retirement. A missed scheduled review returns tomorrow. Tests default to Mixed, which includes both directions. After 10 minutes, finish the current card and choose **Stop or Continue**; from minute 5 the screen tells you it's fine to stop.
 
 - **Practice** lets you flip through every word at any time without changing when it comes back. Choose **EN first** or **PL first** above the card; the app remembers your choice.
 - **Difficult words** offers extra, ungraded practice for words missed three times in a row in the selected direction.
@@ -35,6 +35,29 @@ After initial learning, a direction you remember moves up the ladder of 1, 3, 7,
   that day, even if some reviews remain. Reminders can resume the next day.
 - Updating preserves an already chosen time goal and all learning progress.
 
+## Long-term maintenance
+
+- The successful-review sequence is **1, 3, 7, 14, 30, 60, 90, 180, 365 days,
+  then Maintenance**. Completing the 90-day check schedules the 180-day check;
+  completing that schedules the 365-day check.
+- After the 365-day check, successful maintenance reviews keep scheduling another
+  **365 days** indefinitely. Words never disappear permanently from automatic reviews.
+- Dates use calendar-day arithmetic from the actual answer day, not from an overdue
+  date. A 365-day interval may cross a leap day; it is not a fixed anniversary.
+- A missed review at any long-term stage resets only that direction to the 1-day
+  stage due tomorrow. It follows the existing mature-review policy, not an
+  initial-learning retry.
+- Previously retired directions are now maintenance **due in the next test**.
+  The old `RET` storage code is retained for compatibility; an old record with no due
+  date stays immediately eligible until graded. A successful answer then stores its
+  next 365-day date. No bulk rewrite or progress reset is needed.
+- EN → PL and PL → EN continue independently. Maintenance reviews do not consume
+  the daily allowance of new words or change the other direction's date.
+- Practice and Progress display the new stages. Maintenance uses the existing test
+  queue and two daily reminders; it adds no background service or extra alarms.
+- The 180- and 365-day intervals are practical defaults, not scientifically optimal
+  universal intervals.
+
 ## Test direction
 
 - Choose **Mixed**, **PL → EN**, or **EN → PL** on Home before starting a test.
@@ -45,7 +68,7 @@ After initial learning, a direction you remember moves up the ladder of 1, 3, 7,
 - Fixed modes offer only the selected direction. Starting a new word also saves
   its other direction as unfinished, so it remains available when switching modes.
 - Each word has **two independent repetition schedules**. Answering PL → EN never
-  advances, resets or retires EN → PL, and vice versa. Switching modes can therefore
+  advances, resets or reschedules EN → PL, and vice versa. Switching modes can therefore
   offer the same word in its other direction, without another new-word slot.
 - The direction stays fixed while flipping a card or rotating the phone.
 - Tests are self-graded: for a Polish-first card, recall the English word before

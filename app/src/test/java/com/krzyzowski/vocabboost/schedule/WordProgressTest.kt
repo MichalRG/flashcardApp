@@ -2,7 +2,6 @@ package com.krzyzowski.vocabboost.schedule
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.time.LocalDate
@@ -22,6 +21,10 @@ class WordProgressTest {
             Triple(Stage.S14, Stage.S30, 30L),
             Triple(Stage.S30, Stage.C60, 60L),
             Triple(Stage.C60, Stage.C90, 90L),
+            Triple(Stage.C90, Stage.C180, 180L),
+            Triple(Stage.C180, Stage.C365, 365L),
+            Triple(Stage.C365, Stage.MAINTENANCE, 365L),
+            Triple(Stage.MAINTENANCE, Stage.MAINTENANCE, 365L),
         )
 
         ladder.forEach { (from, to, days) ->
@@ -33,19 +36,46 @@ class WordProgressTest {
     }
 
     @Test
-    fun `passing the 90-day check retires the word and it is never due again`() {
-        val after = waiting(Stage.C90).answered(knew = true, day = answerDay)
+    fun `maintenance remains due indefinitely until answered and then schedules another 365 days`() {
+        var progress = waiting(Stage.MAINTENANCE)
+        var day = LocalDate.parse("2126-01-01")
+        repeat(10) {
+            assertTrue(progress.isDueBy(day))
+            progress = progress.answered(knew = true, day)
+            assertEquals(Stage.MAINTENANCE, progress.stage)
+            assertEquals(day.plusDays(365), progress.due)
+            assertEquals(introducedOn, progress.introducedOn)
+            assertFalse(progress.isDueBy(day.plusDays(364)))
+            day = day.plusDays(365)
+        }
+    }
 
-        assertEquals(Stage.RETIRED, after.stage)
-        assertNull(after.due)
-        assertFalse(after.isDueBy(LocalDate.parse("2126-01-01")))
+    @Test
+    fun `a legacy retired record without a due date becomes immediately due maintenance`() {
+        val legacy = WordProgress(Stage.fromCode("RET"), null, introducedOn)
+
+        assertEquals(Stage.MAINTENANCE, legacy.stage)
+        assertTrue(legacy.isDueBy(answerDay))
+        assertTrue(legacy.isDueBy(answerDay.plusYears(10)))
+        val remembered = legacy.answered(knew = true, answerDay)
+        assertEquals(WordProgress(Stage.MAINTENANCE, answerDay.plusDays(365), introducedOn), remembered)
+        assertEquals(WordProgress(Stage.S1, answerDay.plusDays(1), introducedOn), legacy.answered(false, answerDay))
+    }
+
+    @Test
+    fun `late maintenance schedules 365 calendar days from the actual answer even across a leap day`() {
+        val late = waiting(Stage.MAINTENANCE, LocalDate.parse("2028-02-28"))
+            .answered(knew = true, LocalDate.parse("2028-02-29"))
+
+        assertEquals(Stage.MAINTENANCE, late.stage)
+        assertEquals(LocalDate.parse("2029-02-28"), late.due)
+        assertFalse(late.isDueBy(LocalDate.parse("2029-02-27")))
+        assertTrue(late.isDueBy(LocalDate.parse("2029-02-28")))
     }
 
     @Test
     fun `not knowing a word at any step sends it back to the 1-day step due tomorrow`() {
-        val steps = listOf(Stage.S1, Stage.S3, Stage.S7, Stage.S14, Stage.S30, Stage.C60, Stage.C90)
-
-        steps.forEach { from ->
+        Stage.entries.forEach { from ->
             val after = waiting(from).answered(knew = false, day = answerDay)
 
             assertEquals("stage after failing $from", Stage.S1, after.stage)

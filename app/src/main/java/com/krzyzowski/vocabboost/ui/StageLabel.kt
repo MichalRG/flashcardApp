@@ -15,6 +15,8 @@ object StageLabel {
         Stage.S30 -> R.string.stage_30_days
         Stage.C60 -> R.string.stage_60_day_check
         Stage.C90 -> R.string.stage_90_day_check
-        Stage.RETIRED -> R.string.stage_retired
+        Stage.C180 -> R.string.stage_180_day_check
+        Stage.C365 -> R.string.stage_365_day_check
+        Stage.MAINTENANCE -> R.string.stage_maintenance
     }
 }

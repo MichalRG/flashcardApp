@@ -20,14 +20,12 @@ class DeckProgressTest {
             WordProgress(Stage.S3, LocalDate.parse("2026-11-02"), LocalDate.parse("2026-10-30")),
             deck.of("boon"),
         )
-        assertEquals(WordProgress(Stage.RETIRED, null, LocalDate.parse("2026-03-01")), deck.of("puddle"))
+        assertEquals(WordProgress(Stage.MAINTENANCE, null, LocalDate.parse("2026-03-01")), deck.of("puddle"))
     }
 
     @Test
     fun `progress is saved as the version 1 text sorted by word id`() {
-        val deck = DeckProgress.NONE
-            .reaching("puddle", Stage.RETIRED, LocalDate.parse("2026-03-01"))
-            .reaching("boon", Stage.S3, LocalDate.parse("2026-10-30"))
+        val deck = DeckProgress.decode("puddle=RET;-;2026-03-01,boon=S3;2026-11-02;2026-10-30")
 
         assertEquals(golden, deck.encode())
     }

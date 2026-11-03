@@ -77,7 +77,7 @@ class ProgressStoreTest {
     }
 
     @Test
-    fun `a word that is known at every review climbs the whole ladder on calendar dates and retires`() = runTest {
+    fun `a word known at every review climbs the calendar-date ladder and continues with annual maintenance`() = runTest {
         val walk = listOf(
             Triple("2026-10-30", Stage.S1, "2026-10-31"),
             Triple("2026-10-31", Stage.S3, "2026-11-03"),
@@ -86,7 +86,10 @@ class ProgressStoreTest {
             Triple("2026-11-24", Stage.S30, "2026-12-24"),
             Triple("2026-12-24", Stage.C60, "2027-02-22"),
             Triple("2027-02-22", Stage.C90, "2027-05-23"),
-            Triple("2027-05-23", Stage.RETIRED, null),
+            Triple("2027-05-23", Stage.C180, "2027-11-19"),
+            Triple("2027-11-19", Stage.C365, "2028-11-18"),
+            Triple("2028-11-18", Stage.MAINTENANCE, "2029-11-18"),
+            Triple("2029-11-18", Stage.MAINTENANCE, "2030-11-18"),
         )
 
         walk.forEach { (answeredOn, stage, due) ->
@@ -95,7 +98,7 @@ class ProgressStoreTest {
 
             val progress = store.deck.first().of("boon")
             assertEquals("stage after answering on $answeredOn", stage, progress?.stage)
-            assertEquals("due after answering on $answeredOn", due?.let(LocalDate::parse), progress?.due)
+            assertEquals("due after answering on $answeredOn", LocalDate.parse(due), progress?.due)
         }
     }
 

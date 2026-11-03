@@ -44,6 +44,16 @@ class ReminderDecisionTest {
         assertEquals(1, decision.decide(deck, today, 0, null, TestMode.POLISH_FIRST)?.waiting)
         assertEquals(6, decision.decide(DirectionalProgress.NONE, today, 3, null, TestMode.MIXED)?.waiting)
     }
+
+    @Test
+    fun `legacy maintenance can trigger normal reminders but never overrides the completed daily goal`() {
+        val deck = DirectionalProgress.fromLegacy(DeckProgress.decode("puddle=RET;-;2026-03-01"))
+
+        assertEquals(2, decision.decide(deck, today, 0, null, TestMode.MIXED)?.waiting)
+        assertEquals(1, decision.decide(deck, today, 0, null, TestMode.POLISH_FIRST)?.waiting)
+        assertNull(decision.decide(deck, today, 0, today, TestMode.MIXED))
+    }
+
     @Test
     fun `a reminder carries the number of reviews due plus the new words still to introduce`() {
         val deck = DeckProgress.NONE

@@ -86,7 +86,9 @@
     <string name="stage_30_days">30 days</string>
     <string name="stage_60_day_check">60-day check</string>
     <string name="stage_90_day_check">90-day check</string>
-    <string name="stage_retired">Retired</string>
+    <string name="stage_180_day_check">180-day check</string>
+    <string name="stage_365_day_check">365-day check</string>
+    <string name="stage_maintenance">Maintenance (every 365 days)</string>
 
     <string name="settings_title">Settings</string>
     <string name="settings_new_words">New words per day</string>

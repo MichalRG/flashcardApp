@@ -95,11 +95,11 @@ class DirectionalWorkloadTest {
     }
 
     @Test
-    fun `empty and retired decks do not produce review cards`() {
+    fun `empty decks and future maintenance do not produce review cards`() {
         TestMode.entries.forEach { mode ->
             assertEquals(0, DirectionalWorkload.of(emptyList(), DirectionalProgress.NONE, today, 8, mode).waiting)
         }
-        val legacy = list.fold(DeckProgress.NONE) { deck, word -> deck.reaching(word.id, Stage.RETIRED, today) }
+        val legacy = list.fold(DeckProgress.NONE) { deck, word -> deck.reaching(word.id, Stage.MAINTENANCE, today) }
         assertEquals(0, DirectionalWorkload.of(list, DirectionalProgress.fromLegacy(legacy), today, 8, TestMode.MIXED).waiting)
     }
 

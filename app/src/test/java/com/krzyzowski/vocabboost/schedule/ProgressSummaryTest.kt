@@ -21,7 +21,7 @@ class ProgressSummaryTest {
             .reaching("s30", Stage.S30, LocalDate.parse("2026-10-30"))
             .reaching("c60", Stage.C60, LocalDate.parse("2026-10-30"))
             .reaching("c90", Stage.C90, LocalDate.parse("2026-10-30"))
-            .reaching("done", Stage.RETIRED, LocalDate.parse("2026-10-01"))
+            .reaching("done", Stage.MAINTENANCE, LocalDate.parse("2026-10-01"))
             .reaching("removed-from-list", Stage.S3, LocalDate.parse("2026-10-15"))
 
         val summary = ProgressSummary.of(list, deck, today, newWordsPerDay = 3)
@@ -36,7 +36,9 @@ class ProgressSummaryTest {
                 Stage.S30 to 1,
                 Stage.C60 to 1,
                 Stage.C90 to 1,
-                Stage.RETIRED to 1,
+                Stage.C180 to 0,
+                Stage.C365 to 0,
+                Stage.MAINTENANCE to 1,
             ),
             dueToday = 2, // s1-due is due today, s3-late is overdue; the removed word is not counted
             newToday = 2, // quota 3 minus s1-new, which was answered today

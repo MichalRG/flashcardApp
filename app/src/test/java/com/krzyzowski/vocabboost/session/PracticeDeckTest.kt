@@ -18,13 +18,13 @@ class PracticeDeckTest {
         }
 
     @Test
-    fun `practice offers every word in list order with its stage, including new and retired ones`() {
+    fun `practice offers every word in list order with its stage including new and maintenance ones`() {
         val list = words("puddle", "boon", "thorough", "bargain", "reluctant")
         val answeredOn = LocalDate.parse("2026-10-01")
         val progress = DeckProgress.NONE
             .reaching("boon", Stage.S1, answeredOn)
             .reaching("thorough", Stage.C60, answeredOn)
-            .reaching("bargain", Stage.RETIRED, answeredOn)
+            .reaching("bargain", Stage.MAINTENANCE, answeredOn)
 
         val deck = PracticeDeck(list, progress)
 
@@ -34,7 +34,7 @@ class PracticeDeckTest {
         assertNull(deck.stageAt(0))
         assertEquals(Stage.S1, deck.stageAt(1))
         assertEquals(Stage.C60, deck.stageAt(2))
-        assertEquals(Stage.RETIRED, deck.stageAt(3))
+        assertEquals(Stage.MAINTENANCE, deck.stageAt(3))
         assertNull(deck.stageAt(4))
     }
 

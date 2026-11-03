@@ -25,11 +25,11 @@ class DeckProgress private constructor(private val words: Map<String, WordProgre
     fun encode(): String = words.entries
         .sortedBy { it.key }
         .joinToString(",") { (id, progress) ->
-            "$id=${progress.stage.code};${progress.due ?: RETIRED_DUE};${progress.introducedOn}"
+            "$id=${progress.stage.code};${progress.due ?: NO_DUE};${progress.introducedOn}"
         }
 
     companion object {
-        private const val RETIRED_DUE = "-"
+        private const val NO_DUE = "-"
 
         val NONE = DeckProgress(emptyMap())
 
@@ -42,7 +42,7 @@ class DeckProgress private constructor(private val words: Map<String, WordProgre
                         val (stage, due, introducedOn) = value.split(';')
                         id to WordProgress(
                             stage = Stage.fromCode(stage),
-                            due = due.takeUnless { it == RETIRED_DUE }?.let(LocalDate::parse),
+                            due = due.takeUnless { it == NO_DUE }?.let(LocalDate::parse),
                             introducedOn = LocalDate.parse(introducedOn),
                         )
                     }.getOrNull()

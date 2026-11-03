@@ -132,13 +132,13 @@ class WorkloadTest {
     }
 
     @Test
-    fun `a retired word never returns to a test, however many years pass`() {
+    fun `maintenance vocabulary still returns to a test even after many years`() {
         val list = words("puddle", "boon")
-        val deck = DeckProgress.NONE.reaching("puddle", Stage.RETIRED, LocalDate.parse("2026-10-01"))
+        val deck = DeckProgress.NONE.reaching("puddle", Stage.MAINTENANCE, LocalDate.parse("2026-10-01"))
 
         val workload = Workload.of(list, deck, LocalDate.parse("2126-01-01"), newWordsPerDay = 5)
 
-        assertEquals(emptyList<String>(), workload.reviews.map { it.id })
+        assertEquals(listOf("puddle"), workload.reviews.map { it.id })
         assertEquals(listOf("boon"), workload.newWords.map { it.id })
     }
 }
