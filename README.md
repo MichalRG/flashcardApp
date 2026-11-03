@@ -2,13 +2,13 @@
 
 A small Android app that helps you learn English words with flashcards, a few minutes a day.
 
-**Version 1.8** tracks English-to-Polish and Polish-to-English recall separately and keeps vocabulary in recurring long-term maintenance.
+**Version 1.9** adds ungraded sentence-completion exercises in Practice, alongside separate English-to-Polish and Polish-to-English recall schedules and recurring long-term maintenance.
 
 Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. **Start test** offers due reviews and unfinished initial learning before up to 8 distinct new words. New words need one successful recall in each direction before that direction enters its repetition schedule. Missed initial-learning cards can return later in the same session.
 
 After initial learning, a direction you remember moves up the ladder of 1, 3, 7, 14 and 30 days, then checks after 60, 90, 180 and 365 days. It then stays in maintenance, with another review every 365 days instead of permanent retirement. A missed scheduled review returns tomorrow. Tests default to Mixed, which includes both directions. After 10 minutes, finish the current card and choose **Stop or Continue**; from minute 5 the screen tells you it's fine to stop.
 
-- **Practice** lets you flip through every word at any time without changing when it comes back. Choose **EN first** or **PL first** above the card; the app remembers your choice.
+- **Practice** lets you flip through every word at any time without changing when it comes back. Choose **Flashcards** for EN-first / PL-first cards, or **Context** to complete English sentences. The app remembers both choices.
 - **Difficult words** offers extra, ungraded practice for words missed three times in a row in the selected direction.
 - Home shows your time in the app today, a daily goal (10 minutes by default; choose 5 for a gentler start) and your streak of days with the goal met
 - **Progress** shows initial learning, repetition stages and due counts separately for each direction
@@ -99,6 +99,8 @@ English-first recall starts its own 1-day interval, without changing PL → EN.
 
 ## Practice direction
 
+- The **Flashcards / Context** selector switches exercise type without moving to a
+  different word. Flashcards is the default for both new and existing installations.
 - **EN first** shows the English word; **PL first** shows its Polish translation.
 - Tap the card to reveal the English word, example and Polish translation.
 - Changing direction turns the current card back to its front without changing your
@@ -108,6 +110,30 @@ English-first recall starts its own 1-day interval, without changing PL → EN.
 - The displayed repetition stage, including unfinished Learning, belongs to the
   selected direction.
 - Switching languages never changes learning progress or the repetition schedule.
+
+## Context practice
+
+- Open **Practice**, then choose **Context**. All 144 bundled words have an exercise
+  in the same order as ordinary flashcards.
+- Complete the sentence mentally or aloud, then tap to reveal the missing expression,
+  completed sentence and Polish meaning. No typing or graded answer buttons are required.
+- Answers use the form the sentence actually needs: for example, **overtaking**
+  rather than **overtake**, or **gave me a lift** rather than **give someone a lift**.
+  The base vocabulary expression is also shown when its form differs.
+- Exercises use existing examples or curated context sentences, with explicit grammatical
+  forms. If an example repeats the answer, a separate sentence prevents it leaking into the prompt.
+  Each exercise has one gap. Other grammatically and contextually correct expressions
+  may also fit; these are ungraded exercises, not exact-match tests.
+- The language toggle and repetition stage are hidden in Context because it is
+  English sentence practice, not a third scheduled direction. Returning to Flashcards
+  restores the saved language choice and turns the card back to its front.
+- The chosen exercise type survives navigation and app restarts. Context is available
+  for all words, not only mature ones; it does not introduce words or consume the
+  daily new-word allowance.
+- Context changes no schedules, initial-learning status, difficulty streaks or test
+  prompts. Difficult words remains ordinary flip-only revision.
+- Time on the screen still counts toward the daily time goal. No background work,
+  network access, third-party generation or extra notifications are added.
 
 ## Difficult words
 
@@ -180,6 +206,12 @@ words in deck order, within the existing daily allowance. Adding vocabulary chan
 saved schedules nor difficulty streaks, and does not reset statistics or settings.
 
 All words live in one list, `app/src/main/java/com/krzyzowski/vocabboost/words/VocabWords.kt`. Each entry has an `id`, the English word or phrase, the example sentence(s) and the Polish translation.
+
+Context exercises use `contextAnswer` (the exact grammatical form in the sentence;
+defaults to the English expression) and `contextSentence` (defaults to the existing
+example). Set overrides when the expression is inflected, has alternative display
+forms or appears twice. Tests require every bundled exercise to contain its answer
+exactly once as a whole expression, with no pre-existing gap.
 
 - The `id` is the word's permanent key: a lower-case slug such as `take-for-granted`, unique in the list. Never change it once the word is installed, or its progress is lost.
 - The English text, example and translation can be corrected at any time; progress stays.

@@ -20,7 +20,15 @@ import com.krzyzowski.vocabboost.R
 import com.krzyzowski.vocabboost.words.VocabWord
 
 @Composable
-fun FlipCard(word: VocabWord, front: String, isNew: Boolean, flipped: Boolean, onFlip: () -> Unit) {
+fun FlipCard(
+    word: VocabWord,
+    front: String,
+    isNew: Boolean,
+    flipped: Boolean,
+    onFlip: () -> Unit,
+    answer: String = word.english,
+    example: String = word.example,
+) {
     Card(
         onClick = onFlip,
         modifier = Modifier
@@ -43,9 +51,16 @@ fun FlipCard(word: VocabWord, front: String, isNew: Boolean, flipped: Boolean, o
                 )
             }
             if (flipped) {
-                Text(word.english, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+                Text(answer, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+                if (!answer.equals(word.english, ignoreCase = true)) {
+                    Text(
+                        stringResource(R.string.card_base_expression, word.english),
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                    )
+                }
                 Text(
-                    word.example,
+                    example,
                     style = MaterialTheme.typography.bodyLarge,
                     fontStyle = FontStyle.Italic,
                     textAlign = TextAlign.Center,

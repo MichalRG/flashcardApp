@@ -10,6 +10,7 @@ class PracticeDeck(
     private val progress: DeckProgress,
     val direction: CardDirection = CardDirection.ENGLISH_FIRST,
     private val learning: Set<String> = emptySet(),
+    val mode: PracticeMode = PracticeMode.FLASHCARDS,
 ) {
     val size: Int
         get() = words.size

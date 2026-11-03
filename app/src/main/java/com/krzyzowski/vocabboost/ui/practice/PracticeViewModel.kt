@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.krzyzowski.vocabboost.VocabBoostApp
 import com.krzyzowski.vocabboost.session.CardDirection
 import com.krzyzowski.vocabboost.session.PracticeDeck
+import com.krzyzowski.vocabboost.session.PracticeMode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,9 +21,11 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
     private val _position = MutableStateFlow(0)
 
     val deck: StateFlow<PracticeDeck?> =
-        combine(container.progressStore.deck, container.settings.practiceDirection) { progress, direction ->
+        combine(
+            container.progressStore.deck, container.settings.practiceDirection, container.settings.practiceMode,
+        ) { progress, direction, mode ->
             val current = progress.forDirection(direction)
-            PracticeDeck(container.words, current.schedule, direction, current.learning)
+            PracticeDeck(container.words, current.schedule, direction, current.learning, mode)
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     val position: StateFlow<Int> = _position.asStateFlow()
@@ -34,5 +37,9 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
 
     fun setDirection(direction: CardDirection) {
         viewModelScope.launch { container.settings.setPracticeDirection(direction) }
+    }
+
+    fun setMode(mode: PracticeMode) {
+        viewModelScope.launch { container.settings.setPracticeMode(mode) }
     }
 }

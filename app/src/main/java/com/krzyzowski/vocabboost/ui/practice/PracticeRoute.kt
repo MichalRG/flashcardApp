@@ -16,5 +16,6 @@ fun PracticeRoute(viewModel: PracticeViewModel = viewModel()) {
         direction = currentDeck.direction,
         onMove = viewModel::move,
         onDirectionChange = viewModel::setDirection,
+        onModeChange = viewModel::setMode,
     )
 }

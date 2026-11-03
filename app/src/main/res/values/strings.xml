@@ -25,6 +25,7 @@
 
     <string name="card_new">New</string>
     <string name="card_tap_to_flip">Tap the card to see the answer</string>
+    <string name="card_base_expression">Vocabulary: %1$s</string>
 
     <string name="test_position">Card %1$d of %2$d</string>
     <string name="test_direction">Test direction</string>
@@ -58,6 +59,10 @@
     <string name="test_end_back_home">Back to home</string>
 
     <string name="practice_title">Practice</string>
+    <string name="practice_flashcards">Flashcards</string>
+    <string name="practice_context">Context</string>
+    <string name="practice_context_instruction">Complete the sentence with an English expression from your vocabulary. Think or say the answer, then tap the card to check it. No typing needed.</string>
+    <string name="practice_context_ungraded">Practice only: schedules and difficulty streaks stay unchanged. Other correct expressions may also fit.</string>
     <string name="practice_en_first">EN first</string>
     <string name="practice_pl_first">PL first</string>
     <string name="practice_position">Word %1$d of %2$d</string>

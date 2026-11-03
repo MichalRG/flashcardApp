@@ -95,6 +95,7 @@ val VOCAB_WORDS = listOf(
         id = "climb-the-ladder",
         english = "climb the ladder",
         example = "She started as an assistant and quickly climbed the career ladder.",
+        contextAnswer = "climbed the career ladder",
         polish = "wspinać się po drabinie; robić karierę, awansować",
     ),
     VocabWord(
@@ -119,12 +120,14 @@ val VOCAB_WORDS = listOf(
         id = "graduate-from-university",
         english = "graduate from university",
         example = "She graduated from university last summer and found her first job.",
+        contextAnswer = "graduated from university",
         polish = "ukończyć uniwersytet, ukończyć studia",
     ),
     VocabWord(
         id = "become-apparent",
         english = "become apparent",
         example = "It soon became apparent that we needed more time.",
+        contextAnswer = "became apparent",
         polish = "stać się widocznym, oczywistym",
     ),
     VocabWord(
@@ -179,18 +182,21 @@ val VOCAB_WORDS = listOf(
         id = "pull-something-off",
         english = "pull something off",
         example = "Nobody expected her to finish the project in time, but she pulled it off.",
+        contextAnswer = "pulled it off",
         polish = "dokonać czegoś trudnego, zdołać coś osiągnąć",
     ),
     VocabWord(
         id = "by-the-skin-of-your-teeth",
         english = "by the skin of your teeth",
         example = "We pulled off the win by the skin of our teeth, scoring in the final second.",
+        contextAnswer = "by the skin of our teeth",
         polish = "ledwo, o włos, z największym trudem",
     ),
     VocabWord(
         id = "refer-to",
         english = "refer to",
         example = "When I mentioned the deadline, I was referring to Friday.",
+        contextAnswer = "referring to",
         polish = "odnosić się do, nawiązywać do",
     ),
     VocabWord(
@@ -203,6 +209,7 @@ val VOCAB_WORDS = listOf(
         id = "throw-a-sickie",
         english = "throw a sickie",
         example = "He threw a sickie on Monday even though he was perfectly healthy.",
+        contextAnswer = "threw a sickie",
         polish = "udawać chorego, żeby nie iść do pracy (potoczne, brytyjskie)",
     ),
     VocabWord(
@@ -221,6 +228,7 @@ val VOCAB_WORDS = listOf(
         id = "cobble-something-together",
         english = "cobble something together",
         example = "We cobbled together a quick dinner from what was left in the fridge.",
+        contextAnswer = "cobbled together",
         polish = "sklecić, poskładać lub zorganizować coś na szybko",
     ),
     VocabWord(
@@ -239,6 +247,7 @@ val VOCAB_WORDS = listOf(
         id = "turn-down",
         english = "turn down",
         example = "She turned down the job offer because the salary was too low.",
+        contextAnswer = "turned down",
         polish = "odrzucić propozycję, odmówić",
     ),
     VocabWord(
@@ -281,12 +290,14 @@ val VOCAB_WORDS = listOf(
         id = "listen-to-your-chest",
         english = "listen to your chest",
         example = "The doctor asked me to breathe deeply so she could listen to my chest.",
+        contextAnswer = "listen to my chest",
         polish = "osłuchać klatkę piersiową",
     ),
     VocabWord(
         id = "run-a-blood-test",
         english = "run a blood test / do a blood test",
         example = "The doctor decided to run a blood test to check my iron levels.",
+        contextAnswer = "run a blood test",
         polish = "wykonać badanie krwi",
     ),
     VocabWord(
@@ -305,12 +316,14 @@ val VOCAB_WORDS = listOf(
         id = "run-a-series-of-medical-tests",
         english = "run a series of medical tests",
         example = "The doctors ran a series of medical tests to find the cause of the pain.",
+        contextAnswer = "ran a series of medical tests",
         polish = "przeprowadzić serię badań medycznych",
     ),
     VocabWord(
         id = "sweat-buckets",
         english = "sweat buckets",
         example = "We were sweating buckets after carrying the boxes upstairs.",
+        contextAnswer = "sweating buckets",
         polish = "pocić się obficie (potoczne)",
     ),
     VocabWord(
@@ -323,12 +336,14 @@ val VOCAB_WORDS = listOf(
         id = "smother-a-fire",
         english = "smother a fire",
         example = "The firefighter explained how a fire blanket can smother a small fire.",
+        contextAnswer = "smother a small fire",
         polish = "stłumić, zdusić ogień przez odcięcie dopływu powietrza",
     ),
     VocabWord(
         id = "stoke-a-fire",
         english = "stoke a fire",
         example = "He added another log to stoke the fire.",
+        contextAnswer = "stoke the fire",
         polish = "podsycać ogień, dokładać do ognia",
     ),
     VocabWord(
@@ -347,6 +362,7 @@ val VOCAB_WORDS = listOf(
         id = "clutch",
         english = "clutch (gaming)",
         example = "She managed to clutch the round even though she was outnumbered.",
+        contextAnswer = "clutch",
         polish = "wygrać w trudnej sytuacji lub w decydującym momencie (slang gier)",
     ),
     VocabWord(
@@ -383,6 +399,7 @@ val VOCAB_WORDS = listOf(
         id = "eat-shit",
         english = "eat shit",
         example = "I hit a pothole on my skateboard and ate shit in front of everyone.",
+        contextAnswer = "ate shit",
         polish = "zaliczyć bolesną glebę, mocno się wywrócić (wulgarny slang)",
     ),
     VocabWord(
@@ -407,6 +424,7 @@ val VOCAB_WORDS = listOf(
         id = "prescribe",
         english = "prescribe",
         example = "The doctor prescribed a cream for the rash.",
+        contextAnswer = "prescribed",
         polish = "przepisać, zaordynować lek",
     ),
     VocabWord(
@@ -431,12 +449,14 @@ val VOCAB_WORDS = listOf(
         id = "exceed-a-dose",
         english = "exceed a dose",
         example = "Never exceed the dose recommended on the label.",
+        contextAnswer = "exceed the dose",
         polish = "przekroczyć dawkę",
     ),
     VocabWord(
         id = "dose-up",
         english = "dose up",
         example = "She dosed herself up with the medicine her doctor had prescribed.",
+        contextAnswer = "dosed herself up",
         polish = "zażyć lekarstwo, faszerować się lekami (potoczne; nie po prostu zwiększyć dawkę)",
     ),
     VocabWord(
@@ -449,6 +469,7 @@ val VOCAB_WORDS = listOf(
         id = "cut-something-out",
         english = "cut something out",
         example = "I cut sugary drinks out of my diet completely.",
+        contextAnswer = "cut sugary drinks out",
         polish = "całkowicie wyeliminować coś, przestać coś spożywać lub robić",
     ),
     VocabWord(
@@ -461,6 +482,7 @@ val VOCAB_WORDS = listOf(
         id = "recover-from",
         english = "recover from",
         example = "She is recovering from an operation and feels a little stronger each day.",
+        contextAnswer = "recovering from",
         polish = "dochodzić do siebie po chorobie, urazie lub operacji",
     ),
     VocabWord(
@@ -497,6 +519,7 @@ val VOCAB_WORDS = listOf(
         id = "be-let-go",
         english = "be let go",
         example = "He was let go when the company closed its local office.",
+        contextAnswer = "was let go",
         polish = "zostać zwolnionym z pracy",
     ),
     VocabWord(
@@ -539,12 +562,14 @@ val VOCAB_WORDS = listOf(
         id = "wear-and-tear",
         english = "wear and tear",
         example = "The sofa shows signs of wear and tear after years of use.",
+        contextSentence = "The car is showing signs of wear and tear.",
         polish = "zużycie wskutek zwykłego użytkowania",
     ),
     VocabWord(
         id = "overtake",
         english = "overtake",
         example = "I waited for a clear stretch of road before overtaking the lorry.",
+        contextAnswer = "overtaking",
         polish = "wyprzedzać, wyprzedzić",
     ),
     VocabWord(
@@ -569,6 +594,7 @@ val VOCAB_WORDS = listOf(
         id = "tyre-deflation-device",
         english = "tyre deflation device / tire deflation device",
         example = "A tyre deflation device was shown during the police demonstration.",
+        contextAnswer = "tyre deflation device",
         polish = "urządzenie do spuszczania powietrza z opon, np. policyjna kolczatka",
     ),
     VocabWord(
@@ -581,12 +607,14 @@ val VOCAB_WORDS = listOf(
         id = "tow",
         english = "tow",
         example = "A breakdown truck towed our car to the garage.",
+        contextAnswer = "towed",
         polish = "holować",
     ),
     VocabWord(
         id = "tug",
         english = "tug (boat)",
         example = "A tug helped the large ship enter the harbour.",
+        contextAnswer = "tug",
         polish = "holownik (statek)",
     ),
     VocabWord(
@@ -605,6 +633,7 @@ val VOCAB_WORDS = listOf(
         id = "turn-the-key",
         english = "turn the key",
         example = "She turned the key, but the engine would not start.",
+        contextAnswer = "turned the key",
         polish = "przekręcić kluczyk",
     ),
     VocabWord(
@@ -617,6 +646,7 @@ val VOCAB_WORDS = listOf(
         id = "bring-traffic-to-a-halt",
         english = "bring traffic to a halt",
         example = "The fallen tree brought traffic to a halt.",
+        contextAnswer = "brought traffic to a halt",
         polish = "całkowicie zatrzymać ruch",
     ),
     VocabWord(
@@ -641,6 +671,7 @@ val VOCAB_WORDS = listOf(
         id = "scrap-the-plan",
         english = "scrap the plan",
         example = "The council scrapped the plan to build a new car park.",
+        contextAnswer = "scrapped the plan",
         polish = "porzucić plan, całkowicie z niego zrezygnować",
     ),
     VocabWord(
@@ -659,12 +690,14 @@ val VOCAB_WORDS = listOf(
         id = "blow-out-tyre",
         english = "blow out (tyre)",
         example = "The front tyre blew out during the journey.",
+        contextAnswer = "blew out",
         polish = "pęknąć, wystrzelić (o oponie)",
     ),
     VocabWord(
         id = "flat-tyre",
         english = "flat tyre / flat tire",
         example = "We could not continue the journey because we had a flat tyre.",
+        contextAnswer = "flat tyre",
         polish = "opona bez powietrza; potocznie flak, guma",
     ),
     VocabWord(
@@ -683,6 +716,7 @@ val VOCAB_WORDS = listOf(
         id = "jack",
         english = "jack (car)",
         example = "We keep a jack in the boot in case we need to change a wheel.",
+        contextAnswer = "jack",
         polish = "podnośnik samochodowy",
     ),
     VocabWord(
@@ -701,6 +735,7 @@ val VOCAB_WORDS = listOf(
         id = "spare-room",
         english = "spare room",
         example = "We have a spare room for guests. My brother uses his spare room for storage.",
+        contextSentence = "We have a spare room for guests.",
         polish = "dodatkowy lub wolny pokój, często gościnny; może też służyć do przechowywania rzeczy",
     ),
     VocabWord(
@@ -713,6 +748,7 @@ val VOCAB_WORDS = listOf(
         id = "take-up-space",
         english = "take up space",
         example = "The old tyres take up too much space in the garage.",
+        contextAnswer = "take up too much space",
         polish = "zajmować miejsce",
     ),
     VocabWord(
@@ -725,6 +761,7 @@ val VOCAB_WORDS = listOf(
         id = "divert-traffic",
         english = "divert traffic",
         example = "The police diverted traffic away from the closed bridge.",
+        contextAnswer = "diverted traffic",
         polish = "skierować ruch na objazd, zmienić jego trasę",
     ),
     VocabWord(
@@ -743,24 +780,28 @@ val VOCAB_WORDS = listOf(
         id = "raise-the-car",
         english = "raise the car",
         example = "The mechanic raised the car on a workshop lift.",
+        contextAnswer = "raised the car",
         polish = "podnieść samochód",
     ),
     VocabWord(
         id = "lower-the-car",
         english = "lower the car",
         example = "The mechanic lowered the car after replacing the wheel.",
+        contextAnswer = "lowered the car",
         polish = "opuścić samochód",
     ),
     VocabWord(
         id = "unscrew",
         english = "unscrew",
         example = "She unscrewed the bolts with a spanner.",
+        contextAnswer = "unscrewed",
         polish = "odkręcić, wykręcić",
     ),
     VocabWord(
         id = "bolts",
         english = "bolt / bolts",
         example = "The mechanic checked that all the bolts were tight.",
+        contextAnswer = "bolts",
         polish = "śruba / śruby",
     ),
     VocabWord(
@@ -779,6 +820,7 @@ val VOCAB_WORDS = listOf(
         id = "break-down",
         english = "break down",
         example = "He had to call for help when his car broke down.",
+        contextAnswer = "broke down",
         polish = "zepsuć się, ulec awarii (np. o samochodzie)",
     ),
     VocabWord(
@@ -797,6 +839,7 @@ val VOCAB_WORDS = listOf(
         id = "pull-over",
         english = "pull over",
         example = "She pulled over in a safe place to check the map.",
+        contextAnswer = "pulled over",
         polish = "zjechać na pobocze lub do krawędzi drogi i zatrzymać się",
     ),
     VocabWord(
@@ -809,6 +852,7 @@ val VOCAB_WORDS = listOf(
         id = "parking-ticket",
         english = "parking ticket",
         example = "The warden gave him a parking ticket. She bought a parking ticket at the machine.",
+        contextSentence = "The warden gave him a parking ticket.",
         polish = "mandat za nieprawidłowe parkowanie; także bilet parkingowy potwierdzający opłatę (zależnie od kontekstu)",
     ),
     VocabWord(
@@ -833,18 +877,21 @@ val VOCAB_WORDS = listOf(
         id = "windscreen-wiper",
         english = "windscreen wiper",
         example = "The windscreen wipers could not keep up with the heavy rain.",
+        contextAnswer = "windscreen wipers",
         polish = "wycieraczka przedniej szyby (brytyjskie)",
     ),
     VocabWord(
         id = "get-a-lift",
         english = "get a lift",
         example = "I got a lift home because I missed the last bus.",
+        contextAnswer = "got a lift",
         polish = "zostać podwiezionym, zabrać się z kimś samochodem (brytyjskie)",
     ),
     VocabWord(
         id = "give-someone-a-lift",
         english = "give someone a lift",
         example = "He gave me a lift to the station after work.",
+        contextAnswer = "gave me a lift",
         polish = "podwieźć kogoś (brytyjskie)",
     ),
     VocabWord(
@@ -857,6 +904,7 @@ val VOCAB_WORDS = listOf(
         id = "clutch-car",
         english = "clutch (car)",
         example = "He pressed the clutch before changing gear.",
+        contextAnswer = "clutch",
         polish = "sprzęgło (w samochodzie)",
     ),
     VocabWord(

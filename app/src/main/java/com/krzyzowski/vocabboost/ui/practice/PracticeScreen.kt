@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.krzyzowski.vocabboost.R
 import com.krzyzowski.vocabboost.session.CardDirection
 import com.krzyzowski.vocabboost.session.PracticeDeck
+import com.krzyzowski.vocabboost.session.PracticeMode
 
 @Composable
 fun PracticeScreen(
@@ -24,6 +25,7 @@ fun PracticeScreen(
     direction: CardDirection,
     onMove: (Int) -> Unit,
     onDirectionChange: (CardDirection) -> Unit,
+    onModeChange: (PracticeMode) -> Unit,
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -35,7 +37,13 @@ fun PracticeScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(stringResource(R.string.practice_title), style = MaterialTheme.typography.headlineMedium)
-            PracticeDirectionToggle(direction, onDirectionChange)
+            PracticeModeToggle(deck.mode, onModeChange)
+            if (deck.mode == PracticeMode.FLASHCARDS) {
+                PracticeDirectionToggle(direction, onDirectionChange)
+            } else {
+                Text(stringResource(R.string.practice_context_instruction))
+                Text(stringResource(R.string.practice_context_ungraded))
+            }
             PracticeCards(deck, position, direction, onMove)
         }
     }

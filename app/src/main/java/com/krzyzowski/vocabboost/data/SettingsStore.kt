@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.krzyzowski.vocabboost.schedule.Workload
 import com.krzyzowski.vocabboost.session.CardDirection
+import com.krzyzowski.vocabboost.session.PracticeMode
 import com.krzyzowski.vocabboost.session.TestMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,6 +24,10 @@ class SettingsStore(private val dataStore: DataStore<Preferences>) {
 
     val practiceDirection: Flow<CardDirection> = dataStore.data.map {
         if (it[PRACTICE_POLISH_FIRST] == true) CardDirection.POLISH_FIRST else CardDirection.ENGLISH_FIRST
+    }
+
+    val practiceMode: Flow<PracticeMode> = dataStore.data.map {
+        PracticeMode.valueOf(it[PRACTICE_MODE] ?: PracticeMode.FLASHCARDS.name)
     }
 
     val testMode: Flow<TestMode> = dataStore.data.map {
@@ -52,6 +57,10 @@ class SettingsStore(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[TEST_MODE] = mode.name }
     }
 
+    suspend fun setPracticeMode(mode: PracticeMode) {
+        dataStore.edit { it[PRACTICE_MODE] = mode.name }
+    }
+
     companion object {
         const val DEFAULT_NEW_WORDS_PER_DAY = Workload.MAX_NEW_WORDS_PER_DAY
         const val DEFAULT_DAILY_GOAL_MINUTES = 10
@@ -61,6 +70,7 @@ class SettingsStore(private val dataStore: DataStore<Preferences>) {
         private val DAILY_GOAL_MINUTES = intPreferencesKey("daily_goal_minutes")
         private val NOTIFICATIONS_ASKED = booleanPreferencesKey("notifications_asked")
         private val PRACTICE_POLISH_FIRST = booleanPreferencesKey("practice_polish_first")
+        private val PRACTICE_MODE = stringPreferencesKey("practice_mode")
         private val TEST_MODE = stringPreferencesKey("test_mode")
     }
 }

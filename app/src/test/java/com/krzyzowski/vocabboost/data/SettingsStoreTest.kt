@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import com.krzyzowski.vocabboost.session.CardDirection
+import com.krzyzowski.vocabboost.session.PracticeMode
 import com.krzyzowski.vocabboost.session.TestMode
 import com.krzyzowski.vocabboost.time.FakeClock
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +48,7 @@ class SettingsStoreTest {
         assertEquals(10, settings.dailyGoalMinutes.first())
         assertFalse(settings.notificationsAsked.first())
         assertEquals(CardDirection.ENGLISH_FIRST, settings.practiceDirection.first())
+        assertEquals(PracticeMode.FLASHCARDS, settings.practiceMode.first())
         assertEquals(TestMode.MIXED, settings.testMode.first())
     }
 

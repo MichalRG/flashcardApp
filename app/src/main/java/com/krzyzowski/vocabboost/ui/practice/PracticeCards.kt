@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -18,7 +19,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.krzyzowski.vocabboost.R
 import com.krzyzowski.vocabboost.session.CardDirection
+import com.krzyzowski.vocabboost.session.ContextExercise
 import com.krzyzowski.vocabboost.session.PracticeDeck
+import com.krzyzowski.vocabboost.session.PracticeMode
 import com.krzyzowski.vocabboost.ui.FlipCard
 import com.krzyzowski.vocabboost.ui.StageLabel
 
@@ -31,31 +34,36 @@ fun PracticeCards(
 ) {
     val currentPosition = deck.boundedPosition(position)
     val word = deck.wordAt(currentPosition)
-    var flipped by rememberSaveable(word.id, direction) { mutableStateOf(false) }
+    var flipped by rememberSaveable(word.id, direction, deck.mode) { mutableStateOf(false) }
+    val context = if (deck.mode == PracticeMode.CONTEXT) remember(word) { ContextExercise(word) } else null
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(
             stringResource(R.string.practice_position, currentPosition + 1, deck.size),
             style = MaterialTheme.typography.titleMedium,
         )
-        Text(
-            stringResource(
-                R.string.practice_stage,
+        if (context == null) {
+            Text(
                 stringResource(
-                    if (deck.isLearningAt(currentPosition)) {
-                        R.string.stage_learning
-                    } else {
-                        StageLabel.of(deck.stageAt(currentPosition))
-                    },
+                    R.string.practice_stage,
+                    stringResource(
+                        if (deck.isLearningAt(currentPosition)) {
+                            R.string.stage_learning
+                        } else {
+                            StageLabel.of(deck.stageAt(currentPosition))
+                        },
+                    ),
                 ),
-            ),
-            modifier = Modifier.testTag("practice_stage"),
-        )
+                modifier = Modifier.testTag("practice_stage"),
+            )
+        }
         FlipCard(
             word = word,
-            front = direction.front(word),
+            front = context?.prompt ?: direction.front(word),
             isNew = false,
             flipped = flipped,
             onFlip = { flipped = !flipped },
+            answer = context?.answer ?: word.english,
+            example = context?.completedSentence ?: word.example,
         )
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedButton(
