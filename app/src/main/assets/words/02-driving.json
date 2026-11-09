@@ -1,0 +1,352 @@
+{
+  "words": [
+    {
+      "id": "overtake",
+      "english": "overtake",
+      "example": "I waited for a clear stretch of road before overtaking the lorry.",
+      "polish": "wyprzedzać, wyprzedzić",
+      "contextAnswer": "overtaking"
+    },
+    {
+      "id": "stinger",
+      "english": "stinger",
+      "example": "A bee's stinger can get stuck in the skin.",
+      "polish": "żądło"
+    },
+    {
+      "id": "stinging-remark",
+      "english": "stinging remark",
+      "example": "She made a stinging remark about his poor preparation.",
+      "polish": "kąśliwa, uszczypliwa uwaga"
+    },
+    {
+      "id": "spike-strip",
+      "english": "spike strip",
+      "example": "The police used a spike strip to stop the stolen vehicle.",
+      "polish": "kolczatka drogowa do przebijania opon"
+    },
+    {
+      "id": "tyre-deflation-device",
+      "english": "tyre deflation device / tire deflation device",
+      "example": "A tyre deflation device was shown during the police demonstration.",
+      "polish": "urządzenie do spuszczania powietrza z opon, np. policyjna kolczatka",
+      "contextAnswer": "tyre deflation device"
+    },
+    {
+      "id": "when-the-petrol-light-came-on",
+      "english": "when the petrol light came on",
+      "example": "I stopped at the next petrol station when the petrol light came on.",
+      "polish": "gdy zapaliła się kontrolka rezerwy paliwa"
+    },
+    {
+      "id": "tow",
+      "english": "tow",
+      "example": "A breakdown truck towed our car to the garage.",
+      "polish": "holować",
+      "contextAnswer": "towed"
+    },
+    {
+      "id": "tug",
+      "english": "tug (boat)",
+      "example": "A tug helped the large ship enter the harbour.",
+      "polish": "holownik (statek)",
+      "contextAnswer": "tug"
+    },
+    {
+      "id": "toll",
+      "english": "toll",
+      "example": "We had to pay a toll to cross the bridge.",
+      "polish": "opłata za przejazd drogą, mostem lub tunelem; myto"
+    },
+    {
+      "id": "ignition",
+      "english": "ignition",
+      "example": "He put the key in the ignition and started the engine.",
+      "polish": "zapłon; stacyjka (miejsce na kluczyk)"
+    },
+    {
+      "id": "turn-the-key",
+      "english": "turn the key",
+      "example": "She turned the key, but the engine would not start.",
+      "polish": "przekręcić kluczyk",
+      "contextAnswer": "turned the key"
+    },
+    {
+      "id": "halt",
+      "english": "halt",
+      "example": "The train came to a halt outside the station.",
+      "polish": "zatrzymanie, postój"
+    },
+    {
+      "id": "bring-traffic-to-a-halt",
+      "english": "bring traffic to a halt",
+      "example": "The fallen tree brought traffic to a halt.",
+      "polish": "całkowicie zatrzymać ruch",
+      "contextAnswer": "brought traffic to a halt"
+    },
+    {
+      "id": "affect-the-plan",
+      "english": "affect the plan",
+      "example": "The roadworks could affect the plan for our journey.",
+      "polish": "wpłynąć na plan, np. wymusić jego zmianę"
+    },
+    {
+      "id": "drop-the-plan",
+      "english": "drop the plan",
+      "example": "We decided to drop the plan because it was too expensive.",
+      "polish": "zrezygnować z planu"
+    },
+    {
+      "id": "change-the-plan",
+      "english": "change the plan",
+      "example": "We had to change the plan when the museum closed early.",
+      "polish": "zmienić plan"
+    },
+    {
+      "id": "scrap-the-plan",
+      "english": "scrap the plan",
+      "example": "The council scrapped the plan to build a new car park.",
+      "polish": "porzucić plan, całkowicie z niego zrezygnować",
+      "contextAnswer": "scrapped the plan"
+    },
+    {
+      "id": "car-battery",
+      "english": "car battery",
+      "example": "The car battery was flat after I left the lights on.",
+      "polish": "akumulator samochodowy"
+    },
+    {
+      "id": "lose-charge",
+      "english": "lose charge",
+      "example": "Batteries lose charge if they are left unused for a long time.",
+      "polish": "tracić ładunek, rozładowywać się"
+    },
+    {
+      "id": "blow-out-tyre",
+      "english": "blow out (tyre)",
+      "example": "The front tyre blew out during the journey.",
+      "polish": "pęknąć, wystrzelić (o oponie)",
+      "contextAnswer": "blew out"
+    },
+    {
+      "id": "flat-tyre",
+      "english": "flat tyre / flat tire",
+      "example": "We could not continue the journey because we had a flat tyre.",
+      "polish": "opona bez powietrza; potocznie flak, guma",
+      "contextAnswer": "flat tyre"
+    },
+    {
+      "id": "sealant",
+      "english": "sealant",
+      "example": "The repair kit contains tyre sealant.",
+      "polish": "uszczelniacz"
+    },
+    {
+      "id": "truck-mounted-crane",
+      "english": "truck-mounted crane",
+      "example": "A truck-mounted crane lifted the heavy equipment onto the building site.",
+      "polish": "dźwig samochodowy, żuraw zamontowany na ciężarówce"
+    },
+    {
+      "id": "jack",
+      "english": "jack (car)",
+      "example": "We keep a jack in the boot in case we need to change a wheel.",
+      "polish": "podnośnik samochodowy",
+      "contextAnswer": "jack"
+    },
+    {
+      "id": "lift-up",
+      "english": "lift up",
+      "example": "They used special equipment to lift up the damaged car.",
+      "polish": "podnieść, unieść"
+    },
+    {
+      "id": "spare-change",
+      "english": "spare change",
+      "example": "Have you got any spare change for the parking meter?",
+      "polish": "drobne pieniądze, drobniaki"
+    },
+    {
+      "id": "spare-room",
+      "english": "spare room",
+      "example": "We have a spare room for guests. My brother uses his spare room for storage.",
+      "polish": "dodatkowy lub wolny pokój, często gościnny; może też służyć do przechowywania rzeczy",
+      "contextSentence": "We have a spare room for guests."
+    },
+    {
+      "id": "spanner",
+      "english": "spanner",
+      "example": "Pass me the spanner so I can loosen this nut.",
+      "polish": "klucz do śrub i nakrętek, np. płaski lub oczkowy (brytyjskie)"
+    },
+    {
+      "id": "take-up-space",
+      "english": "take up space",
+      "example": "The old tyres take up too much space in the garage.",
+      "polish": "zajmować miejsce",
+      "contextAnswer": "take up too much space"
+    },
+    {
+      "id": "at-the-side-of-the-road",
+      "english": "at the side of the road",
+      "example": "The broken-down car was parked at the side of the road.",
+      "polish": "na poboczu, przy drodze"
+    },
+    {
+      "id": "divert-traffic",
+      "english": "divert traffic",
+      "example": "The police diverted traffic away from the closed bridge.",
+      "polish": "skierować ruch na objazd, zmienić jego trasę",
+      "contextAnswer": "diverted traffic"
+    },
+    {
+      "id": "roadworks",
+      "english": "roadworks",
+      "example": "The roadworks near the station caused long delays.",
+      "polish": "roboty drogowe (brytyjskie)"
+    },
+    {
+      "id": "on-all-night",
+      "english": "on all night",
+      "example": "We left the lights on all night.",
+      "polish": "włączony przez całą noc"
+    },
+    {
+      "id": "raise-the-car",
+      "english": "raise the car",
+      "example": "The mechanic raised the car on a workshop lift.",
+      "polish": "podnieść samochód",
+      "contextAnswer": "raised the car"
+    },
+    {
+      "id": "lower-the-car",
+      "english": "lower the car",
+      "example": "The mechanic lowered the car after replacing the wheel.",
+      "polish": "opuścić samochód",
+      "contextAnswer": "lowered the car"
+    },
+    {
+      "id": "unscrew",
+      "english": "unscrew",
+      "example": "She unscrewed the bolts with a spanner.",
+      "polish": "odkręcić, wykręcić",
+      "contextAnswer": "unscrewed"
+    },
+    {
+      "id": "bolts",
+      "english": "bolt / bolts",
+      "example": "The mechanic checked that all the bolts were tight.",
+      "polish": "śruba / śruby",
+      "contextAnswer": "bolts"
+    },
+    {
+      "id": "piggy-bank",
+      "english": "piggy bank",
+      "example": "She puts her spare change into a piggy bank.",
+      "polish": "świnka skarbonka"
+    },
+    {
+      "id": "speed-bump",
+      "english": "speed bump",
+      "example": "Drivers slowed down as they approached the speed bump.",
+      "polish": "próg zwalniający"
+    },
+    {
+      "id": "break-down",
+      "english": "break down",
+      "example": "He had to call for help when his car broke down.",
+      "polish": "zepsuć się, ulec awarii (np. o samochodzie)",
+      "contextAnswer": "broke down"
+    },
+    {
+      "id": "speed-camera",
+      "english": "speed camera",
+      "example": "There is a speed camera near the school.",
+      "polish": "fotoradar"
+    },
+    {
+      "id": "built-up-area",
+      "english": "built-up area",
+      "example": "The speed limit is lower in this built-up area.",
+      "polish": "obszar zabudowany"
+    },
+    {
+      "id": "pull-over",
+      "english": "pull over",
+      "example": "She pulled over in a safe place to check the map.",
+      "polish": "zjechać na pobocze lub do krawędzi drogi i zatrzymać się",
+      "contextAnswer": "pulled over"
+    },
+    {
+      "id": "warning-triangle",
+      "english": "warning triangle",
+      "example": "The emergency kit includes a warning triangle.",
+      "polish": "trójkąt ostrzegawczy"
+    },
+    {
+      "id": "parking-ticket",
+      "english": "parking ticket",
+      "example": "The warden gave him a parking ticket. She bought a parking ticket at the machine.",
+      "polish": "mandat za nieprawidłowe parkowanie; także bilet parkingowy potwierdzający opłatę (zależnie od kontekstu)",
+      "contextSentence": "The warden gave him a parking ticket."
+    },
+    {
+      "id": "parking-meter",
+      "english": "parking meter",
+      "example": "I put a few coins into the parking meter.",
+      "polish": "parkomat"
+    },
+    {
+      "id": "the-lanes-are-merging",
+      "english": "the lanes are merging",
+      "example": "The lanes are merging just beyond the bridge.",
+      "polish": "pasy ruchu łączą się, zbiegają się w jeden"
+    },
+    {
+      "id": "hit-and-run",
+      "english": "hit-and-run",
+      "example": "The police are investigating a hit-and-run in the car park.",
+      "polish": "ucieczka z miejsca kolizji lub wypadku przez kierowcę, który w nim uczestniczył"
+    },
+    {
+      "id": "windscreen-wiper",
+      "english": "windscreen wiper",
+      "example": "The windscreen wipers could not keep up with the heavy rain.",
+      "polish": "wycieraczka przedniej szyby (brytyjskie)",
+      "contextAnswer": "windscreen wipers"
+    },
+    {
+      "id": "get-a-lift",
+      "english": "get a lift",
+      "example": "I got a lift home because I missed the last bus.",
+      "polish": "zostać podwiezionym, zabrać się z kimś samochodem (brytyjskie)",
+      "contextAnswer": "got a lift"
+    },
+    {
+      "id": "give-someone-a-lift",
+      "english": "give someone a lift",
+      "example": "He gave me a lift to the station after work.",
+      "polish": "podwieźć kogoś (brytyjskie)",
+      "contextAnswer": "gave me a lift"
+    },
+    {
+      "id": "fill-up",
+      "english": "fill up",
+      "example": "I need to fill up before our long drive.",
+      "polish": "zatankować do pełna; napełnić"
+    },
+    {
+      "id": "clutch-car",
+      "english": "clutch (car)",
+      "example": "He pressed the clutch before changing gear.",
+      "polish": "sprzęgło (w samochodzie)",
+      "contextAnswer": "clutch"
+    },
+    {
+      "id": "hedgehog",
+      "english": "hedgehog",
+      "example": "A hedgehog was hiding under the leaves in our garden.",
+      "polish": "jeż"
+    }
+  ]
+}

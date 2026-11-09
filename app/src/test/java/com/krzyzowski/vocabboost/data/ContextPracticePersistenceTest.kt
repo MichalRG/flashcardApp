@@ -11,7 +11,7 @@ import com.krzyzowski.vocabboost.session.PracticeDeck
 import com.krzyzowski.vocabboost.session.PracticeMode
 import com.krzyzowski.vocabboost.session.TestMode
 import com.krzyzowski.vocabboost.time.FakeClock
-import com.krzyzowski.vocabboost.words.VOCAB_WORDS
+import com.krzyzowski.vocabboost.words.BUNDLED_WORDS
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -84,7 +84,7 @@ class ContextPracticePersistenceTest {
             settings.setPracticeMode(mode)
             assertEquals(mode, settings.practiceMode.first())
             val deck = PracticeDeck(
-                VOCAB_WORDS, selected.schedule, CardDirection.POLISH_FIRST, selected.learning, mode,
+                BUNDLED_WORDS, selected.schedule, CardDirection.POLISH_FIRST, selected.learning, mode,
             )
             (0 until deck.size).forEach { position ->
                 if (mode == PracticeMode.CONTEXT) {
@@ -119,7 +119,7 @@ class ContextPracticePersistenceTest {
         assertEquals(CardDirection.POLISH_FIRST, settings.practiceDirection.first())
         assertEquals(TestMode.ENGLISH_FIRST, settings.testMode.first())
         val directional = progress.deck.first().forDirection(CardDirection.POLISH_FIRST)
-        val difficult = PracticeDeck.difficult(VOCAB_WORDS, directional.schedule, DifficultyProgress.NONE)
+        val difficult = PracticeDeck.difficult(BUNDLED_WORDS, directional.schedule, DifficultyProgress.NONE)
         assertEquals(PracticeMode.FLASHCARDS, difficult.mode)
     }
 

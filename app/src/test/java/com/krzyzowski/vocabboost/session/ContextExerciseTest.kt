@@ -1,6 +1,6 @@
 package com.krzyzowski.vocabboost.session
 
-import com.krzyzowski.vocabboost.words.VOCAB_WORDS
+import com.krzyzowski.vocabboost.words.BUNDLED_WORDS
 import com.krzyzowski.vocabboost.words.VocabWord
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -11,8 +11,8 @@ import org.junit.Test
 class ContextExerciseTest {
     @Test
     fun `every bundled word has exactly one gap and restores its original context sentence`() {
-        assertEquals(144, VOCAB_WORDS.size)
-        VOCAB_WORDS.forEach { word ->
+        assertEquals(144, BUNDLED_WORDS.size)
+        BUNDLED_WORDS.forEach { word ->
             val exercise = ContextExercise(word)
             assertEquals("Gap count for ${word.id}", 2, exercise.prompt.split(ContextExercise.GAP).size)
             assertFalse("Answer leaks for ${word.id}", exercise.prompt.contains(exercise.answer, ignoreCase = true))
@@ -23,7 +23,7 @@ class ContextExerciseTest {
 
     @Test
     fun `wear and tear uses the requested car sentence`() {
-        val exercise = ContextExercise(VOCAB_WORDS.single { it.id == "wear-and-tear" })
+        val exercise = ContextExercise(BUNDLED_WORDS.single { it.id == "wear-and-tear" })
 
         assertEquals("The car is showing signs of ______.", exercise.prompt)
         assertEquals("wear and tear", exercise.answer)
@@ -45,14 +45,14 @@ class ContextExerciseTest {
             "run-a-blood-test" to "run a blood test",
         )
         answers.forEach { (id, answer) ->
-            assertEquals(id, answer, ContextExercise(VOCAB_WORDS.single { it.id == id }).answer)
+            assertEquals(id, answer, ContextExercise(BUNDLED_WORDS.single { it.id == id }).answer)
         }
     }
 
     @Test
     fun `sentences that repeat an expression use one context sentence without leaking a second answer`() {
         listOf("spare-room", "parking-ticket").forEach { id ->
-            val word = VOCAB_WORDS.single { it.id == id }
+            val word = BUNDLED_WORDS.single { it.id == id }
             val exercise = ContextExercise(word)
             assertTrue(word.example.length > exercise.completedSentence.length)
             assertFalse(exercise.prompt.contains(exercise.answer))
@@ -62,7 +62,7 @@ class ContextExerciseTest {
 
     @Test
     fun `answer capitalization is preserved rather than forcing the dictionary spelling into the sentence`() {
-        val exercise = ContextExercise(VOCAB_WORDS.single { it.id == "dump-out" })
+        val exercise = ContextExercise(BUNDLED_WORDS.single { it.id == "dump-out" })
 
         assertEquals("Dump out", exercise.answer)
         assertEquals("______ the dirty water before you refill the bucket.", exercise.prompt)
@@ -100,7 +100,7 @@ class ContextExerciseTest {
 
     @Test
     fun `building and revealing a context exercise never changes the original vocabulary card`() {
-        val word = VOCAB_WORDS.single { it.id == "overtake" }
+        val word = BUNDLED_WORDS.single { it.id == "overtake" }
         val before = word.copy()
         val exercise = ContextExercise(word)
         exercise.prompt.replace(ContextExercise.GAP, exercise.answer)

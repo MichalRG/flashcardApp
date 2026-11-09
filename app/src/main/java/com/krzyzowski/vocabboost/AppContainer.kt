@@ -12,14 +12,15 @@ import com.krzyzowski.vocabboost.reminder.ReminderNotifier
 import com.krzyzowski.vocabboost.reminder.ReminderScheduler
 import com.krzyzowski.vocabboost.time.ScreenTimeTracker
 import com.krzyzowski.vocabboost.time.VariantClock
-import com.krzyzowski.vocabboost.words.VOCAB_WORDS
+import com.krzyzowski.vocabboost.words.AssetVocabSource
+import com.krzyzowski.vocabboost.words.VocabParser
 
 class AppContainer(context: Context) {
     private val dataStore = PreferenceDataStoreFactory.create(
         produceFile = { context.preferencesDataStoreFile("vocabboost") },
     )
 
-    val words = VOCAB_WORDS
+    val words = AssetVocabSource(context.assets, VocabParser()).load()
     val clock = VariantClock.create(context)
     val settings = SettingsStore(dataStore)
     val progressStore = ProgressStore(dataStore, clock)

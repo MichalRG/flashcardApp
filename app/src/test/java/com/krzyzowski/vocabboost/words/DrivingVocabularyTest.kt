@@ -47,27 +47,27 @@ class DrivingVocabularyTest {
     @Test
     fun `all ninety original word ids and their introduction order stay unchanged`() {
         assertEquals(90, originalIds.size)
-        assertEquals(originalIds, VOCAB_WORDS.take(90).map { it.id })
+        assertEquals(originalIds, BUNDLED_WORDS.take(90).map { it.id })
     }
 
     @Test
     fun `the complete driving list is appended without replacing existing cards`() {
         assertEquals(54, addedIds.size)
-        assertEquals(144, VOCAB_WORDS.size)
-        assertEquals(addedIds, VOCAB_WORDS.drop(90).map { it.id })
+        assertEquals(144, BUNDLED_WORDS.size)
+        assertEquals(addedIds, BUNDLED_WORDS.drop(90).map { it.id })
     }
 
     @Test
     fun `repeated puncture and wear-and-tear entries do not create duplicate cards`() {
         listOf("puncture", "wear and tear").forEach { english ->
-            assertEquals(1, VOCAB_WORDS.count { it.english == english })
+            assertEquals(1, BUNDLED_WORDS.count { it.english == english })
         }
     }
 
     @Test
     fun `the car and gaming meanings of clutch are separate unambiguous cards`() {
-        val gaming = VOCAB_WORDS.single { it.id == "clutch" }
-        val car = VOCAB_WORDS.single { it.id == "clutch-car" }
+        val gaming = BUNDLED_WORDS.single { it.id == "clutch" }
+        val car = BUNDLED_WORDS.single { it.id == "clutch-car" }
 
         assertEquals("clutch (gaming)", gaming.english)
         assertTrue(gaming.polish.contains("slang gier"))
@@ -82,13 +82,13 @@ class DrivingVocabularyTest {
                 "wear-and-tear=C60;2026-11-02;2026-10-30",
         )
         val difficulty = DifficultyProgress.decode("puncture=0;1;true")
-        val practice = PracticeDeck(VOCAB_WORDS, progress)
-        val workload = Workload.of(VOCAB_WORDS, progress, LocalDate.parse("2026-11-02"), newWordsPerDay = 8)
+        val practice = PracticeDeck(BUNDLED_WORDS, progress)
+        val workload = Workload.of(BUNDLED_WORDS, progress, LocalDate.parse("2026-11-02"), newWordsPerDay = 8)
 
-        assertEquals(Stage.S14, practice.stageAt(VOCAB_WORDS.indexOfFirst { it.id == "puncture" }))
+        assertEquals(Stage.S14, practice.stageAt(BUNDLED_WORDS.indexOfFirst { it.id == "puncture" }))
         assertEquals(listOf("clutch", "puncture", "wear-and-tear"), workload.reviews.map { it.id })
         assertEquals(8, workload.newWords.size)
-        assertEquals("puncture", PracticeDeck.difficult(VOCAB_WORDS, progress, difficulty).wordAt(0).id)
+        assertEquals("puncture", PracticeDeck.difficult(BUNDLED_WORDS, progress, difficulty).wordAt(0).id)
         assertEquals(1, difficulty.of("puncture")?.recoveries)
         addedIds.forEach { id ->
             assertNull("New word $id must not inherit another word's schedule", progress.of(id))

@@ -221,17 +221,40 @@ All added words are immediately available in Practice. Normal tests still introd
 words in deck order, within the existing daily allowance. Adding vocabulary changes neither
 saved schedules nor difficulty streaks, and does not reset statistics or settings.
 
-All words live in one list, `app/src/main/java/com/krzyzowski/vocabboost/words/VocabWords.kt`. Each entry has an `id`, the English word or phrase, the example sentence(s) and the Polish translation.
+Words live in JSON files in [`app/src/main/assets/words/`](app/src/main/assets/words), not in code.
+The app reads every file in that folder in file-name order (`01-general.json`, then
+`02-driving.json`) and joins them into one deck. To add words, append them to the last
+file or add a new file such as `03-kitchen.json`; no Kotlin change is needed.
+[`prompt_creating_words.md`](prompt_creating_words.md) is a ready-made prompt that turns
+notes into such a file with an AI assistant.
 
-Context exercises use `contextAnswer` (the exact grammatical form in the sentence;
-defaults to the English expression) and `contextSentence` (defaults to the existing
-example). Set overrides when the expression is inflected, has alternative display
-forms or appears twice. Tests require every bundled exercise to contain its answer
-exactly once as a whole expression, with no pre-existing gap.
+Each file is an object with one `words` array:
 
-- The `id` is the word's permanent key: a lower-case slug such as `take-for-granted`, unique in the list. Never change it once the word is installed, or its progress is lost.
+```json
+{
+  "words": [
+    {
+      "id": "give-someone-a-lift",
+      "english": "give someone a lift",
+      "example": "He gave me a lift to the station after work.",
+      "polish": "podwieźć kogoś (brytyjskie)",
+      "contextAnswer": "gave me a lift"
+    }
+  ]
+}
+```
+
+- `id`, `english`, `example` (one or two sentences) and `polish` are required, non-blank strings.
+- Context exercises use the optional `contextAnswer` (the exact grammatical form in the sentence;
+  defaults to `english`) and `contextSentence` (defaults to `example`). Set them when the expression
+  is inflected, has alternative display forms or appears twice. Tests require every bundled exercise
+  to contain its answer exactly once as a whole expression, with no pre-existing gap.
+- File names are lower-case slugs ending in `.json`. The two-digit prefix keeps the deck order obvious.
+- Unknown or misspelled fields are rejected rather than ignored, and so is an `id` used twice
+  anywhere in the folder. The error names the file, the word number and the field.
+- The `id` is the word's permanent key: a lower-case slug such as `take-for-granted`, unique across all files. Never change it once the word is installed, or its progress is lost.
 - The English text, example and translation can be corrected at any time; progress stays.
-- New words are introduced in list order, so append new words at the end. Reordering never touches progress.
+- New words are introduced in deck order (files by name, then entries within a file), so add new words at the end of the last file or in a new file with a higher number. Reordering or moving words between files never touches progress.
 - Removing an entry hides the word; its progress comes back if the same `id` is added again.
 - After editing, run `./gradlew --offline :app:testDebugUnitTest`, bump `versionCode` in `app/build.gradle.kts`, then build and install.
 
