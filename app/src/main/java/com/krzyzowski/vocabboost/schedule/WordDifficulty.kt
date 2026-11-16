@@ -28,3 +28,7 @@ data class WordDifficulty(
         const val SUCCESSES_TO_LEAVE = 2
     }
 }
+
+/** Typing the translation is required while the word sits at the full consecutive-miss streak. */
+val WordDifficulty.requiresTypedRecall: Boolean
+    get() = misses == WordDifficulty.MISSES_TO_ENTER

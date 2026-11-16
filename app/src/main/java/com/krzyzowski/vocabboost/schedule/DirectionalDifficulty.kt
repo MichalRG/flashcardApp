@@ -24,3 +24,6 @@ class DirectionalDifficulty private constructor(private val directions: Map<Card
             DirectionalDifficulty(DirectionalText.decode(encoded).mapValues { DifficultyProgress.decode(it.value) })
     }
 }
+
+fun DirectionalDifficulty.requiresTypedRecall(id: String, direction: CardDirection): Boolean =
+    of(id, direction)?.requiresTypedRecall == true
