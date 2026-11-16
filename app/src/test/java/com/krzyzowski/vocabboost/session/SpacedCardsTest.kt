@@ -19,6 +19,16 @@ class SpacedCardsTest {
         }
     }
 
+    /** Every pick respects the 3-card gap, or (when none can) is the least recently shown word. */
+    private fun assertBestEffort(planned: List<TestCard>, shown: List<TestCard> = emptyList()) {
+        val history = shown.map { it.word.id }
+        val order = planned.map { it.word.id }
+        order.indices.forEach { index ->
+            val violation = bestEffortViolation(history + order.take(index), order.drop(index))
+            assertEquals("At position $index of $order", null, violation)
+        }
+    }
+
     @Test
     fun `paired mixed reviews are all retained without adjacent opposite directions`() {
         (4..40).forEach { count ->
@@ -44,16 +54,43 @@ class SpacedCardsTest {
     }
 
     @Test
-    fun `one two or three distinct words defer their opposite directions rather than reuse a fresh answer`() {
+    fun `one two or three distinct words place their opposite directions with the largest gap available`() {
         (1..3).forEach { count ->
             val original = pairs(count)
             val planned = SpacedCards.of(original)
 
-            assertEquals(count, planned.ready.size)
-            assertEquals(count, planned.deferred.size)
-            assertEquals(original.toSet(), (planned.ready + planned.deferred).toSet())
-            assertGap(planned.ready)
+            assertEquals(count * 2, planned.ready.size)
+            assertTrue(planned.deferred.isEmpty())
+            assertEquals(original.toSet(), planned.ready.toSet())
+            (1..count).forEach { index ->
+                val positions = planned.ready.indices.filter { planned.ready[it].word.id == "word-$index" }
+                assertEquals(count - 1, positions.last() - positions.first() - 1)
+            }
+            assertBestEffort(planned.ready)
         }
+    }
+
+    @Test
+    fun `when no card meets the minimum gap the word shown least recently comes next`() {
+        val shown = listOf(card("a"), card("b"), card("c"))
+        val pending = listOf(card("c"), card("a", CardDirection.ENGLISH_FIRST, new = true), card("a"), card("b"))
+        val planned = SpacedCards.of(pending, shown)
+
+        assertTrue(planned.deferred.isEmpty())
+        assertEquals(
+            listOf(card("a"), card("b"), card("c"), card("a", CardDirection.ENGLISH_FIRST, new = true)),
+            planned.ready,
+        )
+    }
+
+    @Test
+    fun `the fallback keeps supplied order between prompts of the least recently shown word`() {
+        val shown = listOf(card("a"), card("b"), card("c"))
+        val first = card("a", CardDirection.ENGLISH_FIRST)
+        val second = card("a", CardDirection.POLISH_FIRST)
+
+        assertEquals(listOf(first, second), SpacedCards.of(listOf(first, second), shown).ready)
+        assertEquals(listOf(second, first), SpacedCards.of(listOf(second, first), shown).ready)
     }
 
     @Test
@@ -137,8 +174,9 @@ class SpacedCardsTest {
             val planned = SpacedCards.of(original)
 
             assertEquals(before, original)
-            assertEquals(original.groupingBy { it }.eachCount(), (planned.ready + planned.deferred).groupingBy { it }.eachCount())
-            assertGap(planned.ready)
+            assertTrue(planned.deferred.isEmpty())
+            assertEquals(original.groupingBy { it }.eachCount(), planned.ready.groupingBy { it }.eachCount())
+            assertBestEffort(planned.ready)
         }
     }
 }

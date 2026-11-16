@@ -31,6 +31,17 @@ class MixedSessionSpacingTest {
         return session to shown
     }
 
+    private fun completeBestEffort(initial: TestSession): Pair<TestSession, List<TestCard>> {
+        var session = initial
+        val shown = mutableListOf<TestCard>()
+        while (!session.isOver) {
+            assertTrue("Unexpected endless retry loop", shown.size < 100)
+            shown += requireNotNull(session.current)
+            session = session.answer(knew = true, timeUp = false)
+        }
+        return session to shown
+    }
+
     @Test
     fun `the reported paired-review bug is prevented throughout the whole session`() {
         val original = cards(8, new = false)
@@ -57,15 +68,29 @@ class MixedSessionSpacingTest {
     }
 
     @Test
-    fun `short new-word decks retain every deferred learning direction without grading it`() {
+    fun `short mixed decks show every direction in the same test with the largest gap available`() {
         (1..3).forEach { count ->
-            val (session, shown) = complete(TestSession.start(cards(count, new = true)))
+            listOf(true, false).forEach { new ->
+                val original = cards(count, new)
+                val (session, shown) = completeBestEffort(TestSession.start(original))
 
-            assertEquals(count, shown.size)
-            assertEquals(count, session.knew)
-            assertEquals(count, session.pendingLearning.size)
-            assertEquals(session.pendingLearning, session.deferredCards.map { it.key }.toSet())
-            assertEquals(session, session.answer(knew = true, timeUp = false))
+                assertEquals(original.size, shown.size)
+                assertEquals(original.toSet(), shown.toSet())
+                assertEquals(original.size, session.knew)
+                assertTrue(session.isOver)
+                assertTrue(completedOf(session))
+                assertTrue(session.pendingLearning.isEmpty())
+                assertTrue(session.deferredCards.isEmpty())
+                (1..count).forEach { index ->
+                    val positions = shown.indices.filter { shown[it].word.id == "word-$index" }
+                    assertEquals(2, positions.size)
+                    assertEquals(
+                        "word-$index of $count words (new=$new) has the most spacing the deck allows",
+                        count - 1,
+                        positions.last() - positions.first() - 1,
+                    )
+                }
+            }
         }
     }
 
@@ -75,7 +100,9 @@ class MixedSessionSpacingTest {
         val opposite = learning.copy(direction = CardDirection.ENGLISH_FIRST)
         val others = listOf("b", "c", "d").map { learning.copy(word = word(it)) }
         var session = TestSession.start(listOf(learning, opposite) + others).answer(false, false)
-        assertEquals(listOf(opposite), session.deferredCards)
+        assertTrue(session.deferredCards.isEmpty())
+        assertEquals(opposite.key, session.cards.last().key)
+        assertEquals(6, session.cards.size)
 
         repeat(3) { session = session.answer(false, false) }
         assertTrue(session.deferredCards.isEmpty())
@@ -90,13 +117,14 @@ class MixedSessionSpacingTest {
     }
 
     @Test
-    fun `the timer does not ask to continue when only unspaced directions remain`() {
+    fun `the timer asks to continue while a formerly held-back direction remains`() {
         val session = TestSession.start(cards(1, new = true)).answer(knew = true, timeUp = true)
 
-        assertTrue(session.isOver)
-        assertFalse(session.awaitingTimeChoice)
-        assertEquals(1, session.deferredCards.size)
+        assertTrue(session.awaitingTimeChoice)
+        assertFalse(session.isOver)
+        assertEquals(1, remainingOf(session))
         assertEquals(1, session.pendingLearning.size)
+        assertTrue(session.deferredCards.isEmpty())
     }
 
     @Test
