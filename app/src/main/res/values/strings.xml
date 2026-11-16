@@ -52,6 +52,12 @@
     </plurals>
     <string name="test_knew_it">Knew it</string>
     <string name="test_did_not_know">Didn\'t know</string>
+    <string name="test_typed_prompt">You missed this word 3 times in a row in this direction. Type the translation shown above before grading.</string>
+    <string name="test_typed_hint">Translation</string>
+    <string name="test_typed_submit">Submit</string>
+    <string name="test_typed_correct">Correct. Now grade yourself.</string>
+    <string name="test_typed_wrong">Not quite. You typed \"%1$s\"; expected: %2$s. This counts as Didn\'t know.</string>
+    <string name="test_typed_continue">Continue</string>
     <string name="test_end">End test</string>
     <string name="test_end_title">Test finished</string>
     <plurals name="test_end_answered">

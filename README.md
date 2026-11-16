@@ -4,7 +4,7 @@ A small Android app that helps you learn English words with flashcards, a few mi
 
 **Version 1.10** spaces opposite test directions and learning retries so the same word cannot give away its next answer. It retains ungraded Context practice, independent translation schedules and recurring long-term maintenance.
 
-Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. **Start test** prioritizes due reviews and unfinished initial learning, with up to 8 distinct new words. New words need one successful recall in each direction before that direction enters its repetition schedule. Missed initial-learning cards can return later in the same session, with other words in between.
+Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. After 3 consecutive **"Didn't know"** answers in a direction, that card also asks you to type the translation before grading (see *Typed recall* below). **Start test** prioritizes due reviews and unfinished initial learning, with up to 8 distinct new words. New words need one successful recall in each direction before that direction enters its repetition schedule. Missed initial-learning cards can return later in the same session, with other words in between.
 
 After initial learning, a direction you remember moves up the ladder of 1, 3, 7, 14 and 30 days, then checks after 60, 90, 180 and 365 days. It then stays in maintenance, with another review every 365 days instead of permanent retirement. A missed scheduled review returns tomorrow. Tests default to Mixed, which includes both directions. After 10 minutes, finish the current card and choose **Stop or Continue**; from minute 5 the screen tells you it's fine to stop.
 
@@ -86,7 +86,29 @@ After initial learning, a direction you remember moves up the ladder of 1, 3, 7,
   offer the same word in its other direction, without another new-word slot.
 - The direction stays fixed while flipping a card or rotating the phone.
 - Tests are self-graded: for a Polish-first card, recall the English word before
-  revealing it; for an English-first card, recall its Polish meaning.
+  revealing it; for an English-first card, recall its Polish meaning. The exception
+  is typed recall, described below.
+
+## Typed recall after repeated misses
+
+- When a word has received **3 consecutive "Didn't know" answers in a test direction**,
+  its next card in that direction requires typing. The card still flips and shows its
+  whole back; instead of the grading buttons you must type the translation of the front
+  text (the Polish meaning for EN-first, the English word for PL-first) and tap **Submit**
+  (or the keyboard's Done key). An empty entry cannot be submitted, so there is no quick
+  **"Didn't know"** on these cards.
+- A **correct** entry shows the usual **"Knew it"** / **"Didn't know"** buttons.
+- A **wrong** entry shows what you typed and the expected answer. Tapping **Continue**
+  records **"Didn't know"** and moves on. There is no retry on the same card.
+- Typing stays required until one **"Knew it"** is recorded in that direction, which
+  resets the miss streak. The other direction is unaffected.
+- Matching is lenient but does not tolerate typos: one meaning of a multi-meaning entry
+  is enough (Polish meanings are separated by `,` `;` or `/`; English ones by `;` or `/`,
+  so "no pain, no gain" must be typed whole). Several typed meanings are accepted when each
+  is valid. Notes in parentheses, letter case, missing Polish diacritics (e.g. "rys" for
+  "ryś") and a trailing `.` `!` or `?` are ignored. Hyphens and apostrophes count.
+- **End test** while typing, or on the correct / wrong feedback, ends the test without
+  recording that card.
 
 ## Initial learning and retries
 

@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.ui.res.stringResource
 import com.krzyzowski.vocabboost.R
+import com.krzyzowski.vocabboost.session.requiresTypedRecall
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -21,7 +22,8 @@ fun TestModeRoute(viewModel: TestModeViewModel, onExit: () -> Unit) {
         LaunchedEffect(Unit) { onExit() }
         return
     }
-    val session by viewModel.session.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val session = state.session
     val timer by viewModel.timer.collectAsStateWithLifecycle()
     val now by viewModel.now.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -49,6 +51,8 @@ fun TestModeRoute(viewModel: TestModeViewModel, onExit: () -> Unit) {
     }
 
     val current = session ?: return
+    // Never show grading for a card whose typed-recall requirement is still unknown.
+    val loadedDifficulty = state.difficulty ?: return
     if (current.awaitingTimeChoice) {
         AlertDialog(
             onDismissRequest = viewModel::end,
@@ -70,6 +74,7 @@ fun TestModeRoute(viewModel: TestModeViewModel, onExit: () -> Unit) {
             elapsed = timer.elapsed(now),
             fineToStop = timer.fineToStop(now),
             timeUp = timer.timeUp(now) && !current.continuedPastLimit,
+            typedRecallRequired = loadedDifficulty.requiresTypedRecall(current.current),
             onAnswer = viewModel::answer,
             onEnd = viewModel::end,
         )
