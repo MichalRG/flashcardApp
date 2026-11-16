@@ -2,7 +2,7 @@
 
 A small Android app that helps you learn English words with flashcards, a few minutes a day.
 
-**Version 1.10** spaces opposite test directions and learning retries so the same word cannot give away its next answer. It retains ungraded Context practice, independent translation schedules and recurring long-term maintenance.
+**Version 1.11** asks you to type the translation after three consecutive misses in a direction, and keeps a test going until every retry and direction is done. It retains spaced test directions, ungraded Context practice, independent translation schedules and recurring long-term maintenance.
 
 Each card shows an English word or its Polish translation; tap it to see the English word, one or two example sentences and the Polish translation, then answer **"Knew it"** or **"Didn't know"**. After 3 consecutive **"Didn't know"** answers in a direction, that card also asks you to type the translation before grading (see *Typed recall* below). **Start test** prioritizes due reviews and unfinished initial learning, with up to 8 distinct new words. New words need one successful recall in each direction before that direction enters its repetition schedule. Missed initial-learning cards can return later in the same session, with other words in between.
 
