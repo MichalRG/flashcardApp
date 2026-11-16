@@ -71,11 +71,15 @@ After initial learning, a direction you remember moves up the ladder of 1, 3, 7,
   to due reviews, new directions and inserted initial-learning retries. The queue
   is checked again after every answer so a retry cannot put an opposite prompt
   immediately beside it.
-- If the remaining material cannot provide that gap, the direction is postponed
-  rather than shown with a fresh answer cue. The end screen explains how many
-  directions were postponed. They are never automatically graded or rescheduled.
-- Home and reminders count all waiting directions, including postponed ones, so
-  their counts can exceed the number of cards that safely fit in one test.
+- If the remaining material cannot provide that gap (for example, only one or two
+  words in Mixed mode), the direction is still shown in the same test with the
+  biggest gap available: the word shown least recently comes next, and prompts for
+  the same word are back-to-back only when nothing else is left. The test keeps
+  going until nothing is left; nothing is automatically graded or rescheduled.
+- The end screen says **Test completed** only when nothing is left in the test.
+  If you end the test early, it says **Test ended – not complete** and how many
+  cards are still left; they are offered again when you start the next test.
+- Home and reminders count all waiting directions.
 - More-frequent words are spread across the queue to avoid consuming all their
   spacing material too early. Within those constraints, original review order is
   retained; first-attempt new directions are lower priority.
@@ -115,10 +119,11 @@ After initial learning, a direction you remember moves up the ladder of 1, 3, 7,
 - A new direction remains **Learning** until its first **"Knew it"** answer.
   Seeing the answer or choosing **"Didn't know"** does not complete initial learning.
 - A failed initial-learning card aims to return after **4 intervening cards**,
-  with a minimum of 3. The global spacing check may move or postpone its opposite
+  with a minimum of 3. The global spacing check may move its opposite
   direction as well, so neither prompt gives away the other's answer.
-- If no gap of at least 3 other cards is available, the app does not force an
-  immediate retry. Learning stays unfinished for a later session.
+- If no gap of at least 3 other cards is available, the retry returns after all
+  remaining cards, or immediately when none are left. It keeps returning in the
+  same test until **"Knew it"** or **End test**, with no cap.
 - The first successful recall schedules that direction's **1-day** review for
   tomorrow, even after several misses or days of unfinished learning. It does
   not jump straight to the 3-day stage.

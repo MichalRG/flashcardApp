@@ -31,7 +31,19 @@ fun TestEndScreen(session: TestSession, onBackHome: () -> Unit) {
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Text(stringResource(R.string.test_end_title), style = MaterialTheme.typography.headlineMedium)
+            Text(
+                stringResource(
+                    if (session.isCompleted) R.string.test_end_title_completed else R.string.test_end_title_not_complete,
+                ),
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.testTag("end_title"),
+            )
+            if (!session.isCompleted) {
+                Text(
+                    pluralStringResource(R.plurals.test_end_cards_left, session.remaining, session.remaining),
+                    modifier = Modifier.testTag("end_cards_left"),
+                )
+            }
             Text(
                 pluralStringResource(R.plurals.test_end_answered, session.answered, session.answered),
                 style = MaterialTheme.typography.titleLarge,
@@ -42,25 +54,6 @@ fun TestEndScreen(session: TestSession, onBackHome: () -> Unit) {
                 stringResource(R.string.test_end_did_not_know, session.didNotKnow),
                 modifier = Modifier.testTag("end_did_not_know"),
             )
-            if (session.pendingLearning.isNotEmpty()) {
-                Text(
-                    pluralStringResource(
-                        R.plurals.test_end_learning_left,
-                        session.pendingLearning.size,
-                        session.pendingLearning.size,
-                    ),
-                )
-            }
-            if (session.deferredCards.isNotEmpty()) {
-                Text(
-                    pluralStringResource(
-                        R.plurals.test_end_spacing_deferred,
-                        session.deferredCards.size,
-                        session.deferredCards.size,
-                    ),
-                    modifier = Modifier.testTag("spacing_deferred"),
-                )
-            }
             Button(onClick = onBackHome, modifier = Modifier.fillMaxWidth().testTag("back_home")) {
                 Text(stringResource(R.string.test_end_back_home))
             }

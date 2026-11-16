@@ -72,7 +72,7 @@ fun TestModeScreen(
         ) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    stringResource(R.string.test_position, session.position + 1, session.cards.size),
+                    stringResource(R.string.test_position, session.position + 1, session.position + session.remaining),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f),
                 )
